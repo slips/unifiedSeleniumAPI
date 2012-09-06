@@ -107,14 +107,14 @@ public abstract class AbstractNode implements IDOMNode {
 		click( NO_KEY );
 	}
 	
-	/**
-	 * Every node supports the doubleClick method
-	 */
-	public void doubleClick() throws USAPIException
-	{
-		log("Double-Clicking on " + type + " <" + nodeName + "> [locator: " + getLocator() + "]", LOGLEVEL_INFO);
-		executeMethod( this, "nativeDoubleClick", new Object [] {}, getLocator() );		
-	}
+//	/**
+//	 * Every node supports the doubleClick method
+//	 */
+//	public void doubleClick() throws USAPIException
+//	{
+//		log("Double-Clicking on " + type + " <" + nodeName + "> [locator: " + getLocator() + "]", LOGLEVEL_INFO);
+//		executeMethod( this, "nativeDoubleClick", new Object [] {}, getLocator() );		
+//	}
 	
 	/**
 	 * Every node supports the controlKeyDown method
@@ -592,20 +592,20 @@ public abstract class AbstractNode implements IDOMNode {
 
     public void nativeClick() throws USAPIException
     {
-//    	WebElement webElement = findElement( getLocator() );
-//    	webElement.click();
-    	// Discard the lcation (Point), we just want to scroll the element into view
-    	((RemoteWebElement)findElement(locator)).getLocationOnScreenOnceScrolledIntoView();
-    	getMouse().click( ((RemoteWebElement)findElement(locator)).getCoordinates());
+    	   //getMouse().mouseMove( ((RemoteWebElement)findElement(locator)).getCoordinates());
+    	   //getMouse().click(((RemoteWebElement)findElement(locator)).getCoordinates());
+    	   //log("Setting focus to element prior to click", LOGLEVEL_INFO);
+    	   //focus();
+    	   WebElement webElement = findElement( getLocator() );
+    	   webElement.click();
     }
     
-    public void nativeDoubleClick() throws USAPIException
-    {
-    	// Discard the lcation (Point), we just want to scroll the element into view
-    	((RemoteWebElement)findElement(locator)).getLocationOnScreenOnceScrolledIntoView();
-    	getMouse().doubleClick( ((RemoteWebElement)findElement(locator)).getCoordinates());	    	
-    }
-    
+//    public void nativeDoubleClick() throws USAPIException
+//    {
+//    	// Discard the lcation (Point), we just want to scroll the element into view
+//    	((RemoteWebElement)findElement(locator)).getLocationOnScreenOnceScrolledIntoView();
+//    	getMouse().doubleClick( ((RemoteWebElement)findElement(locator)).getCoordinates());	    	
+//    }
     
 	public boolean nativeIsEnabled() throws USAPIException
 	{

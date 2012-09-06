@@ -1,0 +1,193 @@
+<project name="unifiedSeleniumAPI"
+         default=""
+		 basedir="."  
+		 xmlns:ivy="antlib:org.apache.ivy.ant">
+	
+	<!-- Uncomment or pass -Demma.enabled=true when running targets
+		 to enable instrumentation and collection of coverage stats -->
+	<!--property name="emma.enabled" value="true"/-->
+
+
+ 	<property name="src.root" value="./src"/>
+ 	<property name="test.root" value="./test"/>
+ 	<!--
+	<property name="dependency.root" value="/Users/slips/cds-global/dev/dependencies/java"/>
+	<property name="emma.dir" value="${dependency.root}/emma-2.0.5312/lib" />
+	-->
+	
+	<property name="output.dir" value="./output" />
+	<property name="dist.dir" value="./dist" />
+	<property name="javadoc.dir" value="${output.dir}/javadoc" />
+	<property name="training.dir" value="./training" />
+	<property name="coverage.dir" value="./coverage" />
+	
+		
+	<property name="dist.root.dir" value="${dist.dir}/UnifiedSeleniumAPI" />
+	<property name="dist.bin.dir" value="${dist.root.dir}/bin" />
+	<property name="dist.javadoc.dir" value="${dist.root.dir}/javadoc" />
+	<property name="dist.training.dir" value="${dist.root.dir}/training" />
+	<property name="dist.version" value="2.0" />
+	<property name="dist.artifact" value="${dist.dir}/UnifiedSeleniumAPI-${dist.version}.zip" />
+	<property name="training.dist.artifact" value="${dist.dir}/UnifiedSeleniumAPI-training.zip" />
+	
+	<property name="tests.root" value="tests"/>
+ 	<property name="tests.output.dir" value="${output.dir}/tests" />
+	<property name="tests.report.dir" value="${tests.output.dir}/report"/>
+	<property name="coverage.dir" value="./coverage"/>	
+	
+	<property environment="env"/>
+	<property name="java.io.tmpdir" value="env.java.io.tmpdir"/>
+	<property name="haltonfailure" value="env.haltonfailure"/>
+		
+    <import file="selenium-framework.tests.xml"/>
+
+	<path id="lib.path.ref">
+		<fileset dir="lib" includes="*.jar">
+			<exclude name="**/*-sources.jar"/>
+			<exclude name="**/*-srcs.jar"/>
+			<exclude name="**/*-javadoc.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="instr.path">
+		<fileset dir="${output.dir}">
+			<include name="**/*.class"/>
+		</fileset>
+	</path>
+
+	<taskdef resource="emma_ant.properties" classpathref="lib.path.ref"/>
+
+	<target name="all" 
+          depends="compile, javadoc, dist"/>
+	
+	<target name="init">
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+			<classpath>
+				<pathelement location="ivy.jar" />
+			</classpath>
+		</taskdef>
+		
+		<delete dir="${output.dir}"/>
+		<delete dir="${javadoc.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete dir="${coverage.dir}"/>
+		
+		<mkdir dir="${coverage.dir}"/>
+		<mkdir dir="lib"/>		
+	</target>
+	
+	<target name="ivy.clean" description="- Remove project specific library files retrieved by Ivy">
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="lib" includes="**/*"/>
+		</delete>
+	</target>
+	
+	<target name="ivy.resolve" depends="init, ivy.clean" description="- Retrieves all Ivy dependencies into the lib directory">
+		<ivy:retrieve />
+		<!--antcall target="ivy.report"/-->
+	</target>	
+
+	<!--target name="compile" depends="ivy.resolve"-->
+	<target name="compile">
+		<mkdir dir="${output.dir}"/>
+		<javac srcdir="${src.root}"
+			destdir="${output.dir}"
+			classpathref="lib.path.ref"
+			source="1.5"
+			target="1.5"
+			deprecation="on"
+			debug="on">
+			<include name="org/usapi/**"/>
+		</javac>
+		
+		<emma enabled="${emma.enabled}">
+			<instr mode="overwrite"
+				instrpath="${output.dir}"
+				metadatafile="${coverage.dir}/metadata.emma"
+				merge="true">
+				<filter excludes="org.usapi.Base64*"/>
+				<filter excludes="org.usapi.NodeType*"/>
+			</instr>
+		</emma>			
+		
+		<jar jarfile="${output.dir}/${ant.project.name}.jar">
+			<manifest>
+				<attribute name="Specification-Title" value="Unified Selenium API"/>
+				<attribute name="Specification-Vendor" value="https://github.com/slips/unifiedSeleniumAPI"/>
+				<attribute name="Implementation-Title" value="Unified Selenium API"/>
+				<attribute name="Implementation-Vendor" value="https://github.com/slips/unifiedSeleniumAPI"/>
+				<attribute name="Implementation-Version" value="Build ${release.version}"/>
+      		</manifest>
+			<fileset dir="${output.dir}">
+				<include name="org/usapi/**"/>
+			</fileset>
+		</jar>
+
+	</target>
+
+	<target name="javadoc">
+		<mkdir dir="${javadoc.dir}"/>
+		<javadoc destdir="${javadoc.dir}"
+			access="package"
+			version="true"
+			author="true"
+			use="true"
+			windowtitle="Unified Selenium API"
+			doctitle="Unified Selenium API"
+			bottom="&lt;i&gt;https://github.com/slips/unifiedSeleniumAPI&lt;/i&gt;">
+			<classpath>
+				<path refid="lib.path.ref"/>
+				<pathelement location="${thirdparty.junit.jar}"/>
+			</classpath>
+			<packageset dir="src"/>
+			<link href="http://download.oracle.com/javase/1.5.0/docs/api/"/>
+			<link href="http://www.junit.org/junit/javadoc/4.4/"/>
+		</javadoc>
+	</target>
+  
+	<target name="dist">
+
+		<mkdir dir="${dist.root.dir}"/>
+		<mkdir dir="${dist.bin.dir}"/>
+		<mkdir dir="${dist.javadoc.dir}"/>
+		<!-- mkdir dir="${release.training.dir}"/ -->
+	
+	    <copy file="${output.dir}/${ant.project.name}.jar" todir="${release.bin.dir}"/>
+		<copy file="${src.root}/application-elements.xml" todir="${release.bin.dir}"/>
+		
+		<copy todir="${dist.bin.dir}">
+			<fileset dir="lib" includes="*.jar">
+				<exclude name="**/*-sources.jar"/>
+				<exclude name="**/*-srcs.jar"/>
+				<exclude name="**/*-javadoc.jar"/>
+				<exclude name="**/emma*.jar"/>
+			</fileset>		
+		</copy>
+
+		<copy todir="${dist.javadoc.dir}">
+			<fileset dir="${javadoc.dir}" />
+		</copy>
+	
+		<!--
+		<copy todir="${dist.training.dir}">
+			<fileset dir="${training.dir}"/>
+			<filelist dir="${src.root}" files="application-elements.xml"/>
+		</copy>
+		-->
+	
+		<copy file="readme.txt" todir="${dist.root.dir}" />
+
+		<zip destfile="${dist.artifact}" 
+			basedir="${dist.root.dir}" />
+
+	</target>
+	
+	<!--
+	<target name="training" depends="release">
+		<zip destfile="${training.dist.artifact}"
+			basedir="./training" />
+		<filelist dir="${src.root}" files="application-elements.xml"/>
+	</target>
+	-->
+  
+</project>

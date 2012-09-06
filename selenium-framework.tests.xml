@@ -1,0 +1,94 @@
+<project name="selenium-framework.tests" 
+         default="fail">
+            
+	<target name="fail">
+    	<fail message="Do not execute this file directly.  Use build.xml."/>
+ 	</target>
+
+	<property name="tests.root" value="tests"/>
+ 	<property name="tests.output.dir" value="${output.dir}/tests" />
+	<property name="tests.report.dir" value="${tests.output.dir}/report"/>
+	
+	<target name="tests.init">
+		<delete dir="${tests.output.dir}"/>
+		<!--mkdir dir="${tests.coverage.dir}"/-->
+	</target>
+
+
+    <path id="tests.classpath">
+    	<path refid="lib.path.ref"/>
+        <pathelement location="${output.dir}/${ant.project.name}.jar"/>
+        <pathelement location="${output.dir}"/>
+    	<pathelement location="${tests.root}"/> <!--junit-application-elements.xml-->
+    </path>
+
+
+ 	<target name="tests.compile" depends="tests.init">
+		<mkdir dir="${tests.output.dir}"/>
+		<mkdir dir="${tests.output.dir}/bin"/>
+		<javac srcdir="${tests.root}"
+        	destdir="${tests.output.dir}/bin/"
+        	classpathref="tests.classpath"
+        	deprecation="on"
+        	source="1.5"
+        	debug="on"
+        	includeAntRuntime="off">
+        	<include name="**/*.java"/>
+		</javac>
+	</target>
+
+   
+    <target name="tests.jar" depends="tests.compile">
+        <jar destfile="${tests.output.dir}/selenium-framework.tests.jar">
+            <fileset dir="${tests.output.dir}/bin"/>
+		</jar>       
+    </target>             
+
+    <target name="tests.run" depends="tests.jar">
+
+        <junit printsummary="false"
+               fork="true"
+               forkmode="perTest"      
+               haltonfailure="${env.haltonfailure}"
+               dir="${tests.output.dir}"
+               tempdir="${java.io.tmpdir}">
+            <classpath>
+                <pathelement location="${tests.output.dir}/selenium-framework.tests.jar"/>
+                <pathelement location="${tests.root}" /> <!-- location of junit-application-elements.xml -->
+                <pathelement location="${src.root}" /> <!-- location of application-elements.xml -->
+                <path refid="tests.classpath"/>
+            </classpath>
+            <jvmarg value="-Dselenium.timeout=5000"/>
+        	<jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma" />
+        	<jvmarg value="-Demma.coverage.out.merge=true" />
+            <formatter type="plain"
+                usefile="false"/>
+            <formatter type="xml" />
+        	
+            <batchtest todir="${tests.output.dir}">
+                <fileset dir="${tests.root}">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    	<emma enabled="${emma.enabled}">
+    		<report sourcepath="${src.root}">
+    			<fileset dir="${coverage.dir}">
+    				<include name="*.emma"/>
+    			</fileset>
+    			<txt outfile="${coverage.dir}/coverage.txt"/>
+    			<html outfile="${coverage.dir}/coverage.html"/>
+    		</report>
+    	</emma>
+
+        <mkdir dir="${tests.report.dir}" />
+        <junitreport todir="${tests.output.dir}">
+          <fileset dir="${tests.output.dir}">
+            <include name="TEST-*.xml" />
+          </fileset>
+          <report format="frames" todir="${tests.report.dir}" />
+        </junitreport>
+    </target>
+    
+</project>
+

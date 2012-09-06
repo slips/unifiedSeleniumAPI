@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+		<util:map id="domNodes" map-class="java.util.Hashtable">
+			<entry key="button" value-ref="buttons" />
+			<entry key="category" value-ref="categories" />
+			<entry key="checkbox" value-ref="checkboxes" />
+			<entry key="hiddenfield" value-ref="hiddenfields" />
+			<entry key="image" value-ref="images" />
+			<entry key="link" value-ref="anchors" />
+			<entry key="listitem" value-ref="listitems" />
+			<entry key="menu" value-ref="menus" />
+			<entry key="menuitem" value-ref="menuitems" />
+			<entry key="modaldialog" value-ref="modaldialogs" />
+			<entry key="radiobutton" value-ref="radiobuttons" />
+			<entry key="selectbox" value-ref="selectboxes" />
+			<entry key="tab" value-ref="tabs" />
+			<entry key="tablecell" value-ref="tablecells" />
+			<entry key="tablerow" value-ref="tablerows" />
+			<entry key="text" value-ref="texts" />
+			<entry key="textfield" value-ref="textfields" />
+			<entry key="treenode" value-ref="treenodes" />
+			<entry key="window" value-ref="windows" />
+		</util:map>
+		
+		
+		<util:map id="anchors" map-class="java.util.Hashtable">
+  			<entry key="k1" value="link=anchor.v1" />
+			<entry key="k2" value="injected value"/>
+  		</util:map>
+
+		<util:map id="buttons" map-class="java.util.Hashtable">
+  			<entry key="k1" value="css=button.v1" />
+  			<entry key="k2" value="this is an embedded injected value, it really is." />
+  		</util:map>
+
+		<util:map id="categories" map-class="java.util.Hashtable">
+  			<entry key="c1" value="id=category.v1" />
+  		</util:map>
+  		
+		<util:map id="checkboxes" map-class="java.util.Hashtable">
+  			<entry key="k1" value="name=checkbox.v1" />
+  			<entry key="k1" value="another injected value" />
+  		</util:map>
+
+		<util:map id="hiddenfields" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/hiddenfield.v1" />
+  		</util:map>
+  		
+		<util:map id="images" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/image.v1" />
+  		</util:map>
+
+		<util:map id="listitems" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/listitem.v1" />
+  		</util:map>
+
+		<util:map id="menus" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/menu.v1" />
+  		</util:map>
+
+		<util:map id="menuitems" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/menuitem.v1" />
+  		</util:map>
+
+		<util:map id="modaldialogs" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/modaldialog.v1" />
+  		</util:map>
+  		
+		<util:map id="radiobuttons" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/radiobutton.v1" />
+  		</util:map>
+
+		<util:map id="selectboxes" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/selectbox.v1" />
+  		</util:map>
+
+		<util:map id="tabs" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/tab.v1" />
+  		</util:map>
+
+		<util:map id="tablecells" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/tablecell.v1" />
+  		</util:map>
+
+		<util:map id="tablerows" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/tablerow.v1" />
+  		</util:map>
+
+		<util:map id="texts" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/text.v1" />
+  		</util:map>  			
+
+		<util:map id="textfields" map-class="java.util.Hashtable">
+  			<entry key="k1" value="//textfield.v1" />
+  		</util:map>
+
+		<util:map id="treenodes" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/treenode.v1" />
+  		</util:map>
+
+		<util:map id="windows" map-class="java.util.Hashtable">
+  			<entry key="k1" value="/window.v1" />
+  		</util:map>
+
+
+
+
+</beans>

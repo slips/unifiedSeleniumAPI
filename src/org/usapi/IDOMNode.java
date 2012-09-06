@@ -37,12 +37,12 @@ public interface IDOMNode {
 	 */
 	public void click() throws USAPIException;
 	
-	/**
-	 * Uses Selenium's Mouse object to generate a doubleClick event on this DOM node.
-     * 
-     * @throws USAPIException
-	 */
-	public void doubleClick() throws USAPIException;
+//	/**
+//	 * Uses Selenium's Mouse object to generate a doubleClick event on this DOM node.
+//     * 
+//     * @throws USAPIException
+//	 */
+//	public void doubleClick() throws USAPIException;
 	
 	/**
 	 * Triggers a {@link com.thoughtworks.selenium.Selenium} click event on this DOM node,
