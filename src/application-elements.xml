@@ -10,6 +10,7 @@
 			<entry key="button" value-ref="buttons" />
 			<entry key="category" value-ref="categories" />
 			<entry key="checkbox" value-ref="checkboxes" />
+			<entry key="file" value-ref="files" />
 			<entry key="hiddenfield" value-ref="hiddenfields" />
 			<entry key="image" value-ref="images" />
 			<entry key="link" value-ref="links" />
@@ -28,7 +29,7 @@
 		</util:map>
 		
 		<util:map id="buttons" map-class="java.util.Hashtable">
-  			<entry key="k1" value="image.v1" />
+  			<entry key="k1" value="button.v1" />
   		</util:map>
   		
 		<util:map id="categories" map-class="java.util.Hashtable">
@@ -36,11 +37,15 @@
   		</util:map>
 
 		<util:map id="checkboxes" map-class="java.util.Hashtable">
-  			<entry key="k1" value="image.v1" />
+  			<entry key="k1" value="checkbox.v1" />
   		</util:map>
   		
+		<util:map id="files" map-class="java.util.Hashtable">
+  			<entry key="k1" value="file.v1" />
+  		</util:map>
+
 		<util:map id="hiddenfields" map-class="java.util.Hashtable">
-  			<entry key="k1" value="image.v1" />
+  			<entry key="k1" value="hiddenfield.v1" />
   		</util:map>
   		
   		<util:map id="images" map-class="java.util.Hashtable">
@@ -48,7 +53,7 @@
   		</util:map>		
 
 		<util:map id="links" map-class="java.util.Hashtable">
-  			<entry key="k1" value="image.v1" />
+  			<entry key="k1" value="link.v1" />
   		</util:map>
 
 		<util:map id="menus" map-class="java.util.Hashtable">
@@ -68,7 +73,7 @@
   		</util:map>
 
 		<util:map id="selectboxes" map-class="java.util.Hashtable">
-  			<entry key="k1" value="image.v1" />
+  			<entry key="k1" value="selectbox.v1" />
   		</util:map>
 
 		<util:map id="tabs" map-class="java.util.Hashtable">
@@ -84,11 +89,11 @@
   		</util:map>
 
 		<util:map id="texts" map-class="java.util.Hashtable">
-  			<entry key="k1" value="image.v1" />
+  			<entry key="k1" value="text.v1" />
   		</util:map>  			
   			
 		<util:map id="textfields" map-class="java.util.Hashtable">
-  			<entry key="searchtext" value="//input[@id='foo']" />
+  			<entry key="k1" value="textfield.v1" />
   		</util:map>
 
 		<util:map id="treenodes" map-class="java.util.Hashtable">

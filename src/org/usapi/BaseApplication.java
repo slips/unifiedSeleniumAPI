@@ -117,6 +117,14 @@ public class BaseApplication implements IApplication {
 	}
 	
 	/**
+	 * Get DOM node of type file
+	 * @param nodeName The UI display string on the file &lt;input type="file"&gt; 
+	 */
+	public IDOMNode file(String nodeName) throws DOMNodeNotFoundException{
+		return domNodeFactory.getDOMNode(NodeType.FILE, nodeName);
+	}
+
+	/**
 	 * Get (input) DOM nodes of type hidden 
 	 * @param nodeName The name of the node as defined in application-elements.xml
 	 */

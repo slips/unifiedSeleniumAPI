@@ -27,6 +27,7 @@ import com.thoughtworks.selenium.Selenium;
 public interface IApplication {
 	public IDOMNode button		( String nodeName ) 	throws DOMNodeNotFoundException;
 	public IDOMNode checkbox	( String nodeName ) 	throws DOMNodeNotFoundException;
+	public IDOMNode file		( String nodeName )		throws DOMNodeNotFoundException;
 	public IDOMNode hiddenfield	( String nodeName )		throws DOMNodeNotFoundException;
 	public IDOMNode image 		( String nodeName )		throws DOMNodeNotFoundException;
 	public IDOMNode link		( String nodeName ) 	throws DOMNodeNotFoundException;

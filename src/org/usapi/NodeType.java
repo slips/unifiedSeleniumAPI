@@ -22,6 +22,7 @@ public enum NodeType
     CATEGORY ( "category" ),
     CHECKBOX ( "checkbox" ),
     ELEMENT ( "element" ),
+    FILE ( "file" ),
     HIDDENFIELD ( "hiddenfield" ),
     IMAGE ( "image" ),
     LINK ( "link" ),

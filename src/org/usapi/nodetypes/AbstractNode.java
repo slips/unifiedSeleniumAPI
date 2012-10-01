@@ -617,5 +617,17 @@ public abstract class AbstractNode implements IDOMNode {
 	{
 		WebElement webElement = findElement( getLocator() );
 		return webElement.getAttribute( "value" );
-	}	
+	}
+	
+	public void nativeClear()
+	{
+		WebElement webElement = findElement( getLocator() );
+		webElement.clear();
+	}
+	
+	public void nativeSendKeys( String value )
+	{
+		WebElement webElement = findElement( getLocator() );
+		webElement.sendKeys( new CharSequence[] { value } );
+	}		
 }
