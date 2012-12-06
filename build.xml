@@ -10,17 +10,12 @@
 
  	<property name="src.root" value="./src"/>
  	<property name="test.root" value="./test"/>
- 	<!--
-	<property name="dependency.root" value="/Users/slips/cds-global/dev/dependencies/java"/>
-	<property name="emma.dir" value="${dependency.root}/emma-2.0.5312/lib" />
-	-->
 	
 	<property name="output.dir" value="./output" />
 	<property name="dist.dir" value="./dist" />
 	<property name="javadoc.dir" value="${output.dir}/javadoc" />
 	<property name="training.dir" value="./training" />
 	<property name="coverage.dir" value="./coverage" />
-	
 		
 	<property name="dist.root.dir" value="${dist.dir}/UnifiedSeleniumAPI" />
 	<property name="dist.bin.dir" value="${dist.root.dir}/bin" />
@@ -152,9 +147,10 @@
 		<mkdir dir="${dist.javadoc.dir}"/>
 		<!-- mkdir dir="${release.training.dir}"/ -->
 	
-	    <copy file="${output.dir}/${ant.project.name}.jar" todir="${release.bin.dir}"/>
-		<copy file="${src.root}/application-elements.xml" todir="${release.bin.dir}"/>
+	    <copy file="${output.dir}/${ant.project.name}.jar" todir="${dist.bin.dir}"/>
+		<copy file="${src.root}/application-elements.xml" todir="${dist.bin.dir}"/>
 		
+		<echo>Copying contents of lib dir</echo>
 		<copy todir="${dist.bin.dir}">
 			<fileset dir="lib" includes="*.jar">
 				<exclude name="**/*-sources.jar"/>
