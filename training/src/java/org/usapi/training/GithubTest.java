@@ -12,7 +12,7 @@ public class GithubTest extends BaseSeleniumTest
 	@Before
 	public void setup()
 	{
-		webDriver.navigate().to("http://www.github.com");
+		open("http://www.github.com");
 	}
 	
 	@Test

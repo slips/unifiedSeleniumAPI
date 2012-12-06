@@ -149,6 +149,11 @@ public abstract class BaseSeleniumTest
     	return webDriver;
     }
     
+    public void open( String url )
+    {
+    	webDriver.navigate().to( url );
+    }
+    
     /**
      * Test if an element is absent, or non-present.  This addresses timing issues where a
      * call to isElementPresent can return 'true' in cases where page-load takes excessive amounts of time, and 
