@@ -149,6 +149,10 @@ public abstract class BaseSeleniumTest
     	return webDriver;
     }
     
+    /**
+     * Open the specified URL in the currently open browser.
+     * @param url
+     */
     public void open( String url )
     {
     	webDriver.navigate().to( url );
