@@ -31,6 +31,7 @@ public class PropertyHelper
     private static final String TIMEOUT 				= "selenium.timeout";
     private static final String SCRIPT_TIMEOUT			= "selenium.scriptTimeout";
     private static final String IMPLICITLY_WAIT			= "selenium.implicitlyWait";
+    private static final String PAGE_LOAD_TIMEOUT		= "selenium.pageLoadTimeout";
     private static final String APPLICATION_ELEMENTS 	= "selenium.applicationElements";
     private static final String MAXIMIZE				= "selenium.maximize";
     private static final String DATA					= "selenium.data";
@@ -55,6 +56,7 @@ public class PropertyHelper
     private static long timeout = 30000;
     private static long scriptTimeout = 0;
     private static long implicitlyWait = 0;
+    private static long pageLoadTimeout = 0;
 
 	private static String appElementsXML = "application-elements.xml";
 	private static boolean maximize = Boolean.getBoolean( MAXIMIZE );
@@ -75,6 +77,7 @@ public class PropertyHelper
 		checkOverride( TIMEOUT, timeout );
 		checkOverride( SCRIPT_TIMEOUT, scriptTimeout );
 		checkOverride( IMPLICITLY_WAIT, implicitlyWait );
+		checkOverride( PAGE_LOAD_TIMEOUT, pageLoadTimeout );
 
         // check for APPLICATION_ELEMENTS override from the environment explicitly to ensure if any exists
     	// it is a valid format.  An invalid app elements file will cause an early end to the party.
@@ -92,7 +95,7 @@ public class PropertyHelper
 	}
 
 	/**
-	 * Defaults to 30000.
+	 * Defaults to 30000 ms.
 	 * @return the value of the JVM environment variable selenium.timeout if present, else default.
 	 */
 	public static long getTimeout()
@@ -100,14 +103,34 @@ public class PropertyHelper
 		return timeout;
 	}
 	
+	/**
+	 * Defaults to 0 ms.  Sets the amount of time to wait for an asynchronous script to finish execution before throwing an error.
+	 * Native WebDriver property, passed through to WebDriver.
+	 * @return
+	 */
 	public static long getScriptTimeout()
 	{
 		return scriptTimeout;
 	}
 	
+	/**
+	 * Defaults to 0 ms.  Specifies the amount of time the driver should wait when searching for an element if it is not immediately present.
+	 * Native WebDriver property, passed through to WebDriver.
+	 * @return
+	 */
 	public static long getImplicitlyWait()
 	{
 		return implicitlyWait;
+	}
+	
+	/**
+	 * Defaults to 0 ms.  Sets the amount of time to wait for a page load to complete before throwing an error.
+	 * Native WebDriver property, passed through to WebDriver.
+	 * @return
+	 */
+	public static long getPageLoadTimeout()
+	{
+		return pageLoadTimeout;
 	}
 
 	/**
@@ -137,13 +160,19 @@ public class PropertyHelper
 		return data;
 	}
 	
+	/**
+	 * @deprecated
+	 * Supported only on selenium (i.e. not WebDriver).  No-op when using WebDriver (the default).
+	 * @return
+	 */
 	public static boolean getHighlight()
 	{
 		return highlight;
 	}
 
 	/**
-	 * Defaults to 0.
+	 * @deprecated
+	 * Defaults to 0.  Affects only selenium.  No effect when using WebDriver, which is the default.
 	 * @return the value of the JVM environment variable selenium.executionSpeed 
 	 */
 	public static String getExecutionSpeed()
@@ -151,21 +180,37 @@ public class PropertyHelper
 		return System.getProperty( EXECUTION_SPEED );
 	}
 
+	/**
+	 * Set the directory where screenshots for failures are saved to.  Defaults to &lt;current user's home dir&gt;/seleniumFailureCaptures
+	 * @return
+	 */
 	public static String getFailureCaptureDir()
 	{
 		return System.getProperty( FAILURECAPTURE_DIR );
 	}
 	
+	/**
+	 * Used when running on the selenium grid, specifies machine name where the selenium server is running.
+	 * @return
+	 */
 	public static String getSeleniumServerHost()
 	{
 		return System.getProperty( SERVER_HOST );
 	}
 	
+	/**
+	 * Used when running on the selenium grid, specifies the port on which the selenium server is running.
+	 * @return
+	 */
 	public static String getSeleniumServerPort()
 	{
 		return System.getProperty( SERVER_PORT );
 	}
 	
+	/**
+	 * Specifies which browser to use.  Required.
+	 * @return
+	 */
 	public static String getSeleniumBrowserCommand()
 	{
 		return System.getProperty( BROWSER_CMD );
@@ -181,6 +226,10 @@ public class PropertyHelper
 		return System.getProperty( BROWSER_PLATFORM );
 	}
 	
+	/**
+	 * URL with which to open the browser (if specified).
+	 * @return
+	 */
 	public static String getSeleniumBrowserUrl()
 	{
 		return System.getProperty( BROWSER_URL );
@@ -191,6 +240,12 @@ public class PropertyHelper
 		return Boolean.parseBoolean(System.getProperty( ENABLE_JAVASCRIPT ));
 	}
 	
+	/**
+	 * Disabled by default for Firefox on Linux as it may cause tests which open many windows in parallel to be unreliable. 
+	 * However, native events work quite well otherwise and are essential for some of the new actions of the Advanced User Interaction.
+	 * Native Firefox event, passed through.
+	 * @return
+	 */
 	public static boolean getEnableNativeEvents()
 	{
 		return Boolean.parseBoolean(System.getProperty(ENABLE_NATIVE_EVENTS));

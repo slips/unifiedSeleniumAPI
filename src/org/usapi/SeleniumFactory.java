@@ -34,6 +34,7 @@ import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import com.thoughtworks.selenium.Selenium;
 
@@ -50,6 +51,7 @@ public class SeleniumFactory
     private static final String BROWSER_TYPE_FIREFOX = "firefox";
     private static final String BROWSER_TYPE_IEXPLORE = "iexplore";
     private static final String BROWSER_TYPE_CHROME = "chrome";
+    private static final String BROWSER_TYPE_SAFARI = "safari";
     private static final String BROWSER_TYPE_HTMLUNIT = "htmlunit";
 
 
@@ -129,15 +131,19 @@ public class SeleniumFactory
             		p.setEnableNativeEvents(PropertyHelper.getEnableNativeEvents());
             		webDriver = new FirefoxDriver(p);
             	}
-            	else if( browser.toLowerCase().contains(BROWSER_TYPE_IEXPLORE))
+            	else if( browser.toLowerCase().contains( BROWSER_TYPE_IEXPLORE ) )
             	{
             		webDriver = new InternetExplorerDriver();
             	}
-            	else if(browser.toLowerCase().contains(BROWSER_TYPE_CHROME))
+            	else if(browser.toLowerCase().contains( BROWSER_TYPE_CHROME ) )
             	{
             		webDriver = new ChromeDriver();
             	}
-            	else if( browser.toLowerCase().contains( BROWSER_TYPE_HTMLUNIT))
+            	else if( browser.toLowerCase().contains( BROWSER_TYPE_SAFARI ) )
+            	{
+            		webDriver = new SafariDriver();
+            	}
+            	else if( browser.toLowerCase().contains( BROWSER_TYPE_HTMLUNIT ) )
             	{
             		DesiredCapabilities capabilities = getDesiredCapabilities( browser );
             		capabilities.setJavascriptEnabled(PropertyHelper.getHtmlUnitEnableJavascript());
@@ -150,8 +156,10 @@ public class SeleniumFactory
         	// in the environment
         	long scriptTimeout = PropertyHelper.getScriptTimeout();
         	long implicitlyWait = PropertyHelper.getImplicitlyWait();
+        	long pageLoadTimeout = PropertyHelper.getPageLoadTimeout();
         	if (scriptTimeout > 0) webDriver.manage().timeouts().setScriptTimeout(scriptTimeout, TimeUnit.MILLISECONDS);
         	if (implicitlyWait > 0) webDriver.manage().timeouts().implicitlyWait(implicitlyWait, TimeUnit.MILLISECONDS);
+        	if (pageLoadTimeout > 0) webDriver.manage().timeouts().pageLoadTimeout(pageLoadTimeout, TimeUnit.MILLISECONDS);
         }
     	return webDriver;
     }
