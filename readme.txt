@@ -79,3 +79,44 @@ Example for application element XML
 
   // Verify that an image that shows the string or has an associated label 'i1' is present
   assertTrue( app.isElementPresent( app.image("i1").getLocator() );
+  
+  
+  Configuration Options
+  =====================
+  o	selenium.timeout: THE master timeout setting.  Controls how long a given action (click, type, etc) is attempted before aborting.
+  
+  o	selenium.scriptTimeout: Sets the amount of time to wait for an asynchronous script to finish execution before throwing an error.
+  
+  o	selenium.implicitlyWait: Specifies the amount of time the driver should wait when searching for an element if it is not immediately present.
+  
+  o	selenium.pageLoadTimeout: Sets the amount of time to wait for a page load to complete before throwing an error.
+    
+  o	selenium.applicationElements: Name of the file containing the application element definitions (locators).  Defaults to application-elements.xml
+  
+  o	selenium.maximize: Whether to maximize the browser immediately following launch.  Defaults to false.
+  
+  o	selenium.data: comma-separated name-value pairs that are processed into a Properties instance.  Can be accessed in code by calling 
+  	PropertyHelper.getData();
+  
+  o	selenium.failureCaptureDir:  Directory where to store screenshots taken in case of failure.  
+    Defaults to <current user's home directory>/seleniumFailureCaptures
+  
+  o	selenium.enableNativeEvents:  Disabled by default for Firefox on Linux as it may cause tests which open many windows in parallel to 
+    be unreliable.	However, native events work quite well otherwise and are essential for some of the new actions of the Advanced User 
+    Interaction.  Native Firefox event, passed through.
+    
+  o	selenium.serverHost: If running on the grid, specifies the machine name or IP of the selenium server host.
+  
+  o	selenium.serverPort: If running on the grid, specifies the port on which the selenium server is listening
+  
+  o	selenium.browserCommand: The browser to user when executing tests, i.e. firefox, iexplore, chrome, safari.
+  
+  o	selenium.browserUrl: URL to which to open the browser to immediately after launching, if specified.
+
+  o	selenium.properties: If using a .properties file other than the default selenium.properties, 
+  
+  
+  
+  
+  
+  
