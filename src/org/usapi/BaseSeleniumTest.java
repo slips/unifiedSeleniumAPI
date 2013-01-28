@@ -155,6 +155,7 @@ public abstract class BaseSeleniumTest
      */
     public void open( String url )
     {
+    	log.info("Navigating to <" + url + ">" );
     	webDriver.navigate().to( url );
     }
     
