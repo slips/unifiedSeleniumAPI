@@ -511,7 +511,8 @@ public abstract class AbstractNode implements IDOMNode {
     	{
     		if( selector.toLowerCase().startsWith("css=") )
     		{
-    			webElement = getWebDriver().findElement( By.cssSelector( selector ) );
+    			String s = selector.split("=")[1];
+    			webElement = getWebDriver().findElement( By.cssSelector( selector.split("=")[1] ) );
     		}
     	}
     	if( webElement == null )
