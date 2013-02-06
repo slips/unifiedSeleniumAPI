@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -81,8 +80,7 @@ public abstract class BaseSeleniumTest
     public final NodeType TYPE_RADIOBUTTON  = NodeType.RADIOBUTTON;
     public final NodeType TYPE_SELECT       = NodeType.SELECT;
     public final NodeType TYPE_TAB          = NodeType.TAB;
-    public final NodeType TYPE_TABLECELL    = NodeType.TABLECELL;
-    public final NodeType TYPE_TABLEROW     = NodeType.TABLEROW;
+    public final NodeType TYPE_TABLE	    = NodeType.TABLE;
     public final NodeType TYPE_TEXT         = NodeType.TEXT;
     public final NodeType TYPE_TEXTFIELD    = NodeType.TEXTFIELD;
     public final NodeType TYPE_TREENODE		= NodeType.TREENODE;

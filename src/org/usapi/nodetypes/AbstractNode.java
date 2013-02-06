@@ -227,7 +227,6 @@ public abstract class AbstractNode implements IDOMNode {
 	
 	public void focus() throws USAPIException
 	{
-//		notSupported ( "focus" );
 		log("Setting focus to " + type + " <" + nodeName + "> [locator: " + getLocator() + "]", LOGLEVEL_INFO);
 		executeSeleniumMethod( "focus", new Object [] { getLocator() } );
 	}
@@ -241,6 +240,37 @@ public abstract class AbstractNode implements IDOMNode {
 	{
 		notSupported("addSelection");
 	}
+
+	public int getRowCount() throws USAPIException
+	{
+		notSupported("getRowCount");
+		return -1;
+	}
+
+	public WebElement getRowElement(int rowIndex) throws USAPIException
+	{
+		notSupported("getRowElement");
+		return null;
+	}
+
+	public String getRowText(int rowIndex) throws USAPIException
+	{
+		notSupported("getRowText");
+		return null;
+	}
+	
+	public WebElement getCellElement(int rowIndex, int columnIndex) throws USAPIException
+	{
+		notSupported("getCellElement");
+		return null;
+	}
+
+	public String getCellText(int rowIndex, int columnIndex) throws USAPIException
+	{
+		notSupported("getCellText");
+		return null;
+	}
+	
 	
 	/**
 	 * Every node supports the contextMenu method 
@@ -249,6 +279,16 @@ public abstract class AbstractNode implements IDOMNode {
 	{
 		log("Bringing up context menu on " + type + " <" + nodeName + "> [locator: " + getLocator() + "]", LOGLEVEL_INFO);
 		getMouse().contextClick( ((RemoteWebElement)findElement(locator)).getCoordinates());
+	}
+	
+	/**
+	 * Every node supports getting the text content of the current node.
+	 */
+	public String getText() throws USAPIException
+	{
+		log("Getting text from " + getType() + " <" + getNodeName() + "> [locator: " + getLocator() + "]", LOGLEVEL_INFO);
+		Object retVal = executeMethod( this, "nativeGetText", new Object [] {}, getLocator() );
+		return (String)retVal;		
 	}
 	
 	/**
@@ -503,7 +543,7 @@ public abstract class AbstractNode implements IDOMNode {
     protected WebElement findElement( String selector )
     {
     	WebElement webElement = null;
-    	if( selector.startsWith( "/" ) )
+    	if( selector.startsWith( "/" ) || selector.startsWith( "(" ) )
     	{
     		webElement = getWebDriver().findElement( By.xpath(selector));
     	}
@@ -620,6 +660,12 @@ public abstract class AbstractNode implements IDOMNode {
 		return webElement.getAttribute( "value" );
 	}
 	
+	public String nativeGetText() throws USAPIException
+	{
+		WebElement webElement = findElement( getLocator() );
+		return webElement.getText();
+	}
+
 	public void nativeClear()
 	{
 		WebElement webElement = findElement( getLocator() );

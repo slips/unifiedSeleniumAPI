@@ -16,8 +16,6 @@ limitations under the License.
 
 package org.usapi;
 
-import com.thoughtworks.selenium.Selenium;
-
 /**
  * 
  * @author slips
@@ -33,9 +31,8 @@ public interface IApplication {
 	public IDOMNode link		( String nodeName ) 	throws DOMNodeNotFoundException;
 	public IDOMNode menu 		( String nodeName )		throws DOMNodeNotFoundException;
 	public IDOMNode menuitem 	( String nodeName) 		throws DOMNodeNotFoundException;
-	public IDOMNode tablecell	( String nodeName ) 	throws DOMNodeNotFoundException;
-	public IDOMNode tablerow	( String nodeName ) 	throws DOMNodeNotFoundException;
 	public IDOMNode tab			( String nodeName ) 	throws DOMNodeNotFoundException;
+	public IDOMNode table		( String nodeName ) 	throws DOMNodeNotFoundException;
 	public IDOMNode text		( String txt )			throws DOMNodeNotFoundException;
 	public IDOMNode textfield	( String nodeName ) 	throws DOMNodeNotFoundException;
 	public IDOMNode radiobutton	( String nodeName ) 	throws DOMNodeNotFoundException;

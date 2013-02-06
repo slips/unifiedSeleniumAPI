@@ -16,7 +16,6 @@ limitations under the License.
 
 package org.usapi;
 
-import com.thoughtworks.selenium.Selenium;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.ApplicationContext;
@@ -183,23 +182,14 @@ public class BaseApplication implements IApplication {
 	}
 
 	/**
-	 * Get DOM node of type tablecell
-	 * @param nodeName A UI display string uniquely identifying the table cell visually 
+	 * Get DOM node of type table
+	 * @param nodeName A UI display string uniquely identifying the table visually 
 	 */
-	public IDOMNode tablecell(String nodeName) throws DOMNodeNotFoundException
+	public IDOMNode table(String nodeName) throws DOMNodeNotFoundException
 	{
-		return domNodeFactory.getDOMNode(NodeType.TABLECELL, nodeName);
+		return domNodeFactory.getDOMNode(NodeType.TABLE, nodeName);
 	}
 
-	/**
-	 * Get DOM node of type tablerow
-	 * @param nodeName The UI display string uniquely identifying the table row visually
-	 */
-	public IDOMNode tablerow(String nodeName) throws DOMNodeNotFoundException
-	{
-		return domNodeFactory.getDOMNode(NodeType.TABLEROW, nodeName);
-	}
-	
 	/**
 	 * Get DOM node of type tab
 	 * @param nodeName The UI display string on the tab &lt;a&gt; 
