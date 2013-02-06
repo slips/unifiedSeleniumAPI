@@ -8,12 +8,17 @@
 		 Requires emma.jar and emma_ant.jar in ant/lib dir -->
 	<!--property name="emma.enabled" value="true"/-->
 	
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
-		<classpath>
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" />
+	<!--	<classpath>
 			<pathelement location="ivy.jar" />
 		</classpath>
-	</taskdef>	
-	<taskdef resource="emma_ant.properties"/>
+	</taskdef> -->	
+	<taskdef resource="emma_ant.properties" /> <!--
+		<classpath>
+			<pathelement location="emma-2.1.5320.jar" />
+			<pathelement location="emma_ant-2.1.5320.jar" />
+		</classpath>
+	</taskdef> -->
 
 
  	<property name="src.root" value="./src"/>
