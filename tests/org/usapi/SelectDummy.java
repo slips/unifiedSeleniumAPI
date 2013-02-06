@@ -22,7 +22,6 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import org.usapi.nodetypes.AbstractNodeTest;
 
 public class SelectDummy extends Select
 {

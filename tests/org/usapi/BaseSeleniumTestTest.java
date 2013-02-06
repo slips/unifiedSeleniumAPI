@@ -16,8 +16,6 @@ limitations under the License.
 
 package org.usapi;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
@@ -26,12 +24,10 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.usapi.common.USAPIException;
-import com.thoughtworks.selenium.Selenium;
 
 
 public class BaseSeleniumTestTest extends TestCase {

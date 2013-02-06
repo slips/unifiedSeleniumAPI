@@ -22,16 +22,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TablecellNodeTest extends AbstractNodeTest {
+public class TableNodeTest extends AbstractNodeTest {
 
-	private String TYPE = "tablecell";
+	private String TYPE = "table";
 	private String NODE_NAME = "t1";
 	
 	@Before
 	public void setUp() throws Exception {
 		super.selenium.setCallbackNode(this);
 		super.webDriver.setCallbackNode(this);
-		nodeUnderTest = new TablecellNode( super.webDriver, TYPE, NODE_NAME, AbstractNodeTest.LOCATOR);
+		nodeUnderTest = new TableNode( super.webDriver, TYPE, NODE_NAME, AbstractNodeTest.LOCATOR);
 	}
 
 	@After

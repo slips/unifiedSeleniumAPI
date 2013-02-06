@@ -34,7 +34,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.usapi.nodetypes.ButtonNode;
 import org.usapi.nodetypes.LinkNode;
-import com.thoughtworks.selenium.Selenium;
 
 public class DOMNodeFactoryTest {
 

@@ -28,7 +28,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.usapi.RemoteWebDriverDummy;
 import org.usapi.SeleniumDummy;
 import org.usapi.common.USAPIException;
-import com.thoughtworks.selenium.Selenium;
 
 public class AbstractNodeTest {
 

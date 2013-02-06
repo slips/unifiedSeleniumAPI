@@ -25,14 +25,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.Select;
 
 import org.usapi.RemoteWebDriverDummy;
 import org.usapi.SelectDummy;
 import org.usapi.WebElementDummy;
 import org.usapi.common.USAPIException;
-import com.thoughtworks.selenium.Selenium;
 
 
 public class SelectboxNodeTest extends AbstractNodeTest {

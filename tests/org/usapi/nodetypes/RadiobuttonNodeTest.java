@@ -24,7 +24,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.usapi.PropertyHelper;
 import org.usapi.common.USAPIException;
 
 public class RadiobuttonNodeTest extends AbstractNodeTest {

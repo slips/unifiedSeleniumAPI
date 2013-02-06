@@ -16,8 +16,6 @@ limitations under the License.
 
 package org.usapi;
 
-import com.thoughtworks.selenium.Selenium;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import org.usapi.NodeType;
 import org.usapi.nodetypes.*;
@@ -323,14 +321,14 @@ public class BaseApplicationTest {
 	}
 	
 	@Test
-	public void testTablecell() {
+	public void testTable() {
 		IDOMNode node = null;
 		// get and verify existing element
 		try
 		{
-			node = baseApp.tablecell("k1");
+			node = baseApp.table("k1");
 			assertNotNull(node);
-			assertTrue(node instanceof TablecellNode);
+			assertTrue(node instanceof TableNode);
 		} catch (DOMNodeNotFoundException e )
 		{
 			fail("Unexpected DOMNodeNotFoundException: " + e.getMessage() );
@@ -338,37 +336,12 @@ public class BaseApplicationTest {
 		// verify correct behavior for non-existing element
 		try
 		{
-			node = baseApp.tablecell("non-existing-key");
+			node = baseApp.table("non-existing-key");
 			fail("Did not receive expected DOMNodeNotFoundException");
 		} catch (DOMNodeNotFoundException e )
 		{
 			// we expect an exception
-			assertEquals(e.getMessage(), getNoNodeForThisKeyErrorMsg("tablecell"));
-		}
-	}
-	
-	@Test
-	public void testTablerow() {
-		IDOMNode node = null;
-		// get and verify existing element
-		try
-		{
-			node = baseApp.tablerow("k1");
-			assertNotNull(node);
-			assertTrue(node instanceof TablerowNode);
-		} catch (DOMNodeNotFoundException e )
-		{
-			fail("Unexpected DOMNodeNotFoundException: " + e.getMessage() );
-		}
-		// verify correct behavior for non-existing element
-		try
-		{
-			node = baseApp.tablerow("non-existing-key");
-			fail("Did not receive expected DOMNodeNotFoundException");
-		} catch (DOMNodeNotFoundException e )
-		{
-			// we expect an exception
-			assertEquals(e.getMessage(), getNoNodeForThisKeyErrorMsg("tablerow"));
+			assertEquals(e.getMessage(), getNoNodeForThisKeyErrorMsg("table"));
 		}
 	}
 	
