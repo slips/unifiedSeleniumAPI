@@ -17,6 +17,7 @@ limitations under the License.
 package org.usapi;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.security.Credentials;
 
 public class AlertDummy extends Alert implements org.openqa.selenium.Alert 
 {
@@ -74,4 +75,7 @@ public class AlertDummy extends Alert implements org.openqa.selenium.Alert
 		return super.exists(timeout);
 	}
 
+	// no-op implementations to satisfy Alert interface
+	public void authenticateUsing( Credentials creds ) {}
+	
 }

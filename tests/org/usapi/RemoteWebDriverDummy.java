@@ -28,7 +28,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
+import org.openqa.selenium.security.Credentials;
 import org.usapi.nodetypes.AbstractNodeTest;
 
 public class RemoteWebDriverDummy extends RemoteWebDriver implements TakesScreenshot
@@ -120,6 +120,7 @@ public class RemoteWebDriverDummy extends RemoteWebDriver implements TakesScreen
 		public void dismiss() {}
 		public String getText() { return "alertText"; }
 		public void sendKeys(String s) {}
+		public void authenticateUsing( Credentials creds ) {}
 	}
 
 }

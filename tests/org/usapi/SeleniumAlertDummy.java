@@ -16,10 +16,13 @@ limitations under the License.
 
 package org.usapi;
 
+import org.openqa.selenium.security.Credentials;
+
 class SeleniumAlertDummy implements org.openqa.selenium.Alert
 {
 	public void accept() {}
 	public void dismiss() {}
 	public String getText() { return "alertText"; }
 	public void sendKeys(String s) {}
+	public void authenticateUsing( Credentials creds ) {}
 }
