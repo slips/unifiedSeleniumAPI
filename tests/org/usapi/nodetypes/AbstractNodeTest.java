@@ -248,6 +248,8 @@ public class AbstractNodeTest {
 		long start = System.currentTimeMillis();
 		nodeUnderTest.sleep(sleepTime);
 		long stop = System.currentTimeMillis();
+		// sl 03-05-2013: I'm seeing very few, random and irregular failures here, but only on fast machines (SSD drives).
+		// ignoring those failures for now when inspecting test results.
 		assertTrue( "Snow White got woken early (sleep() did not sleep for specified length)", stop - start >= sleepTime);
 	}
 	
