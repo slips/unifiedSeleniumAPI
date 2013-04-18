@@ -104,7 +104,7 @@ public abstract class BaseSeleniumTest
 		
 		if ( PropertyHelper.getMaximize() )
         {
-        	selenium.windowMaximize();
+        	webDriver.manage().window().maximize();
         }
 
         String timeout = Long.toString( PropertyHelper.getTimeout() );
