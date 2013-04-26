@@ -24,6 +24,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keyboard;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Mouse;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -585,6 +586,33 @@ public abstract class AbstractNode implements IDOMNode {
     	
     	return webElement;
     }
+    
+    protected WebElement timedFindElement( String selector, long timeout ) throws NoSuchElementException
+    {
+		long start = System.currentTimeMillis();
+		long stop = 0;
+		WebElement e = null;
+		NoSuchElementException noSuchElementException = null;
+		while ( stop - start < timeout )
+		{
+			try
+			{
+				e = findElement( selector );
+				break;
+			} catch ( NoSuchElementException nsee )
+			{
+				noSuchElementException = nsee;
+				sleep ( 1000 );
+				stop = System.currentTimeMillis();
+			}
+		}
+		if( e == null )
+		{
+			throw noSuchElementException;
+		}
+		return e;
+    }
+    
     
     private Mouse getMouse()
     {
