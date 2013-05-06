@@ -16,6 +16,8 @@ limitations under the License.
 
 package org.usapi;
 
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 import org.usapi.common.USAPIException;
 
@@ -261,11 +263,23 @@ public interface IDOMNode {
 	 */
 	public String getCellText( int rowIndex, int columnIndex ) throws USAPIException;
 	
-	
-	
-	
-	
+	/**
+	 * Get the locator expression for this DOM node.
+	 * @return locator
+	 */
 	public String getLocator();
 	
+	/**
+	 * Get the {@link org.openqa.selenium.WebElement} that backs this DOM node.  If more than
+	 * one WebElement matches the locator of this DOM node, the first one is returned.
+	 * @return {@link org.openqa.selenium.WebElement}
+	 */
 	public WebElement getWebElement();
+	
+	/**
+	 * Get all {@link org.openqa.selenium.WebElement} instances that match the locator of this
+	 * DOM node.  
+	 * @return {@link java.util.List} of {@link org.openqa.selenium.WebElement}
+	 */
+	public List<WebElement> getWebElements();
 }

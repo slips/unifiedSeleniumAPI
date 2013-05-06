@@ -16,6 +16,8 @@ limitations under the License.
 
 package org.usapi;
 
+import java.util.List;
+
 /**
  * 
  * @author slips
@@ -40,4 +42,5 @@ public interface IApplication {
 	public IDOMNode window		( String windowName )	throws DOMNodeNotFoundException;
 
 	public IDOMNode element		( NodeType type, String locator );
+	public List<IDOMNode> elements ( NodeType type, String locator );
 }

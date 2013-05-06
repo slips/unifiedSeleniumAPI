@@ -17,6 +17,7 @@ limitations under the License.
 package org.usapi.nodetypes;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -541,63 +542,68 @@ public abstract class AbstractNode implements IDOMNode {
         }
     }
     
-    protected WebElement findElement( String selector )
+    protected List<WebElement> findElements( String selector )
     {
-    	WebElement webElement = null;
+    	List<WebElement> webElements = null;
     	if( selector.startsWith( "/" ) || selector.startsWith( "(" ) )
     	{
-    		webElement = getWebDriver().findElement( By.xpath(selector));
+    		webElements = getWebDriver().findElements( By.xpath(selector));
     	}
-    	if( webElement == null )
+    	if( webElements == null )
     	{
     		if( selector.toLowerCase().startsWith("css=") )
     		{
     			String s = selector.split("=")[1];
-    			webElement = getWebDriver().findElement( By.cssSelector( selector.split("=")[1] ) );
+    			webElements = getWebDriver().findElements( By.cssSelector( selector.split("=")[1] ) );
     		}
     	}
-    	if( webElement == null )
+    	if( webElements == null )
     	{
     		if( selector.toLowerCase().startsWith("id=") )
     		{
-    			webElement = getWebDriver().findElement( By.id( selector.split("=")[1]));
+    			webElements = getWebDriver().findElements( By.id( selector.split("=")[1]));
     		}
     	}
-    	if( webElement == null )
+    	if( webElements == null )
     	{
     		if( selector.toLowerCase().startsWith("name=") )
     		{
-    			webElement = getWebDriver().findElement( By.name( selector.split("=")[1]));
+    			webElements = getWebDriver().findElements( By.name( selector.split("=")[1]));
     		}
     	}
-    	if( webElement == null )
+    	if( webElements == null )
     	{
     		if( selector.toLowerCase().startsWith("link=") )
     		{
-    			webElement = getWebDriver().findElement( By.linkText( selector.split("=")[1]));
+    			webElements = getWebDriver().findElements( By.linkText( selector.split("=")[1]));
     		}
-    		if( webElement == null )
+    		if( webElements == null )
     		{
-    			webElement = getWebDriver().findElement( By.partialLinkText( selector.split("=")[1]));
+    			webElements = getWebDriver().findElements( By.partialLinkText( selector.split("=")[1]));
     		}
     	}
     	
-    	if( webElement == null ) log.error("Unable to find element matching provided selector: <" + selector + ">" );
+    	if( webElements == null ) log.error("Unable to find elements matching provided selector: <" + selector + ">" );
     	
-    	return webElement;
+    	return webElements;
     }
     
-    protected WebElement timedFindElement( String selector, long timeout ) throws NoSuchElementException
+    protected WebElement findElement( String selector )
+    {
+    	return findElements( selector ).get(0);
+    }
+
+    protected List<WebElement> timedFindElements( String selector, long timeout ) throws NoSuchElementException
     {
 		long start = System.currentTimeMillis();
 		long stop = 0;
-		WebElement e = null;
+		List<WebElement> e = null;
 		NoSuchElementException noSuchElementException = null;
 		while ( stop - start < timeout )
 		{
 			try
 			{
-				e = findElement( selector );
+				e = findElements( selector );
 				break;
 			} catch ( NoSuchElementException nsee )
 			{
@@ -611,6 +617,12 @@ public abstract class AbstractNode implements IDOMNode {
 			throw noSuchElementException;
 		}
 		return e;
+    	
+    }
+    
+    protected WebElement timedFindElement( String selector, long timeout ) throws NoSuchElementException
+    {
+    	return timedFindElements( selector, timeout ).get(0);
     }
     
     
@@ -647,6 +659,11 @@ public abstract class AbstractNode implements IDOMNode {
     	return findElement( getLocator() );
     }
     
+    public List<WebElement> getWebElements()
+    {
+    	return findElements( getLocator() );
+    }
+    
 	/****************************************************************************/
 	// Following (native*) methods are not intended to be called directly.   
 	// Invocation is expected to occur through AbstractNode:executeMethod, 
@@ -671,7 +688,7 @@ public abstract class AbstractNode implements IDOMNode {
     
 //    public void nativeDoubleClick() throws USAPIException
 //    {
-//    	// Discard the lcation (Point), we just want to scroll the element into view
+//    	// Discard the location (Point), we just want to scroll the element into view
 //    	((RemoteWebElement)findElement(locator)).getLocationOnScreenOnceScrolledIntoView();
 //    	getMouse().doubleClick( ((RemoteWebElement)findElement(locator)).getCoordinates());	    	
 //    }

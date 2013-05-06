@@ -17,7 +17,12 @@ limitations under the License.
 package org.usapi;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -253,5 +258,73 @@ public class BaseApplication implements IApplication {
 	{
 	    return domNodeFactory.getElementNode( nodeType, locator );
 	}
+	
+	/**
+	 * Get a list of all nodes of specified type that match the provided locator.
+	 * While generally a locator is expected to uniquely identify a given element/
+	 * node in the scope of a given page, there can be cases where a UI is populated
+	 * dynamically with controls of identical type and relative xpath.  This method
+	 * supports accessing those methods through usAPI.
+	 */
+	public List<IDOMNode> elements( NodeType nodeType, String locator )
+	{
+		IDOMNode node = element( nodeType, locator );
+		List<WebElement> webElements = node.getWebElements();
+		List<IDOMNode> nodes = new ArrayList<IDOMNode>();
+		String xpath = null;
+		for( WebElement webElement : webElements )
+		{
+			xpath = getElementXPath( webElement, webDriver );
+			nodes.add( element( nodeType, xpath ) );
+		}
+		return nodes;
+	}
+	
+	/**
+	 * Helper to get xpath for provided webElement instance.  Copied from
+	 * http://stackoverflow.com/questions/4176560/webdrvier-get-elements-xpath
+	 * 
+	 * @param element
+	 * @param driver
+	 * @return
+	 */
+	private String getElementXPath(WebElement element, WebDriver driver)
+	{
+	    return (String) ((JavascriptExecutor) driver).executeScript(
+	    "getXPath=function(node)" +
+	    "{" +
+	        "if (node.id !== '')" +
+	        "{" +
+	            "return '//' + node.tagName.toLowerCase() + '[@id=\"' + node.id + '\"]'" +
+	        "}" +
+
+	        "if (node === document.body)" +
+	        "{" +
+	            "return node.tagName.toLowerCase()" +
+	        "}" +
+
+	        "var nodeCount = 0;" +
+	        "var childNodes = node.parentNode.childNodes;" +
+
+	        "for (var i=0; i<childNodes.length; i++)" +
+	        "{" +
+	            "var currentNode = childNodes[i];" +
+
+	            "if (currentNode === node)" +
+	            "{" +
+	                "return getXPath(node.parentNode) + '/' + node.tagName.toLowerCase() + '[' + (nodeCount+1) + ']'" +
+	            "}" +
+
+	            "if (currentNode.nodeType === 1 && " +
+	                "currentNode.tagName.toLowerCase() === node.tagName.toLowerCase())" +
+	            "{" +
+	                "nodeCount++" +
+	            "}" +
+	        "}" +
+	    "};" +
+
+	    "return getXPath(arguments[0]);", element);
+	}	
+	
 
 }
