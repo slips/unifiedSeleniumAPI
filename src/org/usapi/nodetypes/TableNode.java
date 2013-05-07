@@ -38,7 +38,7 @@ public class TableNode extends AbstractNode
 	
 	public WebElement getRowElement( int rowIndex )
 	{
-		return (WebElement)getWebElement().findElements(By.tagName("tr")).get( rowIndex );
+		return getWebElement().findElements(By.tagName("tr")).get( rowIndex );
 	}
 	
 	public String getRowText( int rowIndex )
@@ -48,7 +48,8 @@ public class TableNode extends AbstractNode
 	
 	public WebElement getCellElement( int rowIndex, int columnIndex )
 	{
-		return (WebElement)getWebElement().findElements(By.tagName("tr")).get( rowIndex ).findElements(By.tagName("td")).get( columnIndex );
+		return getRowElement( rowIndex ).findElements(By.tagName("td")).get( columnIndex );
+//		return (WebElement)getWebElement().findElements(By.tagName("tr")).get( rowIndex ).findElements(By.tagName("td")).get( columnIndex );
 	}
 	
 	public String getCellText( int rowIndex, int columnIndex )
