@@ -583,14 +583,18 @@ public abstract class AbstractNode implements IDOMNode {
     		}
     	}
     	
-    	if( webElements == null ) log.error("Unable to find elements matching provided selector: <" + selector + ">" );
+    	if( webElements.isEmpty() )
+    	{
+    		throw new NoSuchElementException( "Unable to find elements matching provided selector: <" + selector + ">" );
+    	}
     	
     	return webElements;
     }
     
-    protected WebElement findElement( String selector )
+    protected WebElement findElement( String selector ) throws NoSuchElementException
     {
-    	return findElements( selector ).get(0);
+    	return findElements( locator ).get( 0 );
+
     }
 
     protected List<WebElement> timedFindElements( String selector, long timeout ) throws NoSuchElementException
@@ -612,7 +616,7 @@ public abstract class AbstractNode implements IDOMNode {
 				stop = System.currentTimeMillis();
 			}
 		}
-		if( e == null )
+		if( e.isEmpty() )
 		{
 			throw noSuchElementException;
 		}
@@ -622,7 +626,7 @@ public abstract class AbstractNode implements IDOMNode {
     
     protected WebElement timedFindElement( String selector, long timeout ) throws NoSuchElementException
     {
-    	return timedFindElements( selector, timeout ).get(0);
+    	return timedFindElements( selector, timeout ).get( 0 );
     }
     
     
