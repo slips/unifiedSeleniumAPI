@@ -134,7 +134,10 @@ public class USAPIException extends Exception
     private StackTraceElement getCaller()
     {
     	StackTraceElement ste[] = Thread.currentThread().getStackTrace();
-    	StackTraceElement candidate, caller  = null;
+    	StackTraceElement candidate = null;
+    	// if browser (chrome?) hangs stacktrace can seemingly not have expected contents (invoke0), so
+    	// providing default value
+    	StackTraceElement caller = new StackTraceElement( "UNKNOWN_CLASS", "UNKNOWN_METHOD", "UNKNOWN_FILE", -1);
     	for( int ndx = 0; ndx < ste.length; ndx++ )
     	{
     		candidate = ste[ ndx ];
