@@ -76,6 +76,18 @@ public class BaseApplication implements IApplication {
 	}
 	
 	/**
+	 * Scroll the browser window/content by the specified number of pixels
+	 * Note: For this method to work, the visible property of the window's scrollbar must be set to true!
+	 * @param x: Required.  How many pixels to scroll by, along the x-axis (horizontal)
+	 * @param y: Required.  How many pixels to scroll by, along the y-axis (vertical)
+	 */
+	public void scrollBy( int x, int y )
+	{
+		JavascriptExecutor jsx = (JavascriptExecutor)getWebDriver();
+		jsx.executeScript("window.scrollBy(" + x + "," + y + ")", "");
+	}
+	
+	/**
 	 * Wrap org.openqa.selenium.Alert for consistency, and to not require 
 	 * explicit import of selenium .jar in downstream projects
 	 */
