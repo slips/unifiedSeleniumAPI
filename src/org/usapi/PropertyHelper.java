@@ -265,7 +265,7 @@ public class PropertyHelper
 		testProps.put( SERVER_HOST, "" );
 		testProps.put( SERVER_PORT, "" );
 		testProps.put( CHROMEDRIVER_HOST, "127.0.0.1" );
-		testProps.put( CHROMEDRIVER_PORT, 9515);
+		testProps.put( CHROMEDRIVER_PORT, "9515" );
 		testProps.put( BROWSER_CMD, "*firefox" );
 		testProps.put( BROWSER_URL, "http://localhost" );
 		testProps.put( EXECUTION_SPEED, "0" );
