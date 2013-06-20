@@ -22,28 +22,16 @@ import com.thoughtworks.selenium.Selenium;
 
 public class BaseSeleniumTestDummy extends BaseSeleniumTest 
 {
-    protected Selenium selenium;
     protected WebDriver webDriver;
 
     public BaseSeleniumTestDummy ()
     {
-    	selenium = new SeleniumDummy();
     	webDriver = new RemoteWebDriverDummy();
-    }
-    
-    public Selenium getSelenium()
-    {
-    	return selenium;
     }
     
     public WebDriver getWebDriver()
     {
     	return webDriver;
-    }
-    
-    public Selenium getParentSelenium()
-    {
-    	return super.getSelenium();
     }
     
     public WebDriver getParentWebDriver()

@@ -18,6 +18,7 @@ package org.usapi;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Properties;
 
 import junit.framework.Assert;
@@ -27,7 +28,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -51,8 +55,7 @@ import com.thoughtworks.selenium.Wait;
  */
 public abstract class BaseSeleniumTest
 {
-    /** The default selenium instance */
-    protected Selenium selenium;
+    /** The default webdriver instance */
     protected WebDriver webDriver;
     
     AbstractXmlApplicationContext elements = null;
@@ -96,10 +99,9 @@ public abstract class BaseSeleniumTest
      * JUnit setUp.  Starts selenium and maximizes browser if JVM env var selenium.maximize is set.
      */
     @Before
-    public void setUpSelenium()
+    public void setUpWebDriver()
     {
         webDriver = SeleniumFactory.getWebDriverInstance();
-        selenium = SeleniumFactory.getSeleniumInstance();
 		app = new BaseApplication(webDriver, elements );    
 		
 		if ( PropertyHelper.getMaximize() )
@@ -109,7 +111,6 @@ public abstract class BaseSeleniumTest
 
         String timeout = Long.toString( PropertyHelper.getTimeout() );
         log.info("Configuring selenium timeout to " + timeout );
-        selenium.setTimeout( timeout );
     }
 
     /**
@@ -121,19 +122,6 @@ public abstract class BaseSeleniumTest
     	SeleniumFactory.reset();
     }
 
-    /**
-    * Returns the instance of {@link com.thoughtworks.selenium.Selenium} that is used by a given test.
-    * SeleniumFactory return the same singleton.
-    *
-    * This also serves as a wrapper to shield helper functions from having to know or deal with the SeleniumFactory.
-    *
-    * @return Selenium instance (singleton)
-    */
-    public Selenium getSelenium()
-    {
-        return selenium;
-    }
-    
     /**
      * Returns the instance of {@link org.openqa.selenium.WebDriver} that is used by a given test.
      * SeleniumFactory::getWebDriver returns the same singleton.
@@ -175,7 +163,7 @@ public abstract class BaseSeleniumTest
         // long and uses the default timeout.  Rolling my own instead ...
         while ( stop - start < this.timeout )
         {
-            isElementAbsent = !getSelenium().isElementPresent( locator );
+            isElementAbsent = findElementsBy( locator ).isEmpty();
             if ( isElementAbsent ) break;
             sleep( 500 );
             stop = System.currentTimeMillis();
@@ -244,7 +232,7 @@ public abstract class BaseSeleniumTest
 		// long and uses the default timeout.  Rolling my own instead ...
 		while ( stop - start < this.timeout )
 		{
-			isElementPresent = getSelenium().isElementPresent( locator );
+			isElementPresent = !findElementsBy( locator ).isEmpty();
 			if ( isElementPresent ) break;
 			sleep( 500 );
 			stop = System.currentTimeMillis();
@@ -379,7 +367,7 @@ public abstract class BaseSeleniumTest
         {
             public boolean until()
             {
-                return getSelenium().isElementPresent(locator);
+                return isElementPresent(locator);
             }
         }.wait("Timeout watiting for '" + locator + "'");
     }
@@ -474,6 +462,50 @@ public abstract class BaseSeleniumTest
         pw.flush();
         sw.flush();
         return sw.toString();
+    }
+    
+    private List<WebElement> findElementsBy( String locator )
+    {
+    	List<WebElement> webElements = null;
+    	if( locator.startsWith( "/" ) || locator.startsWith( "(" ) )
+    	{
+    		webElements = getWebDriver().findElements( By.xpath(locator));
+    	}
+    	if( webElements == null )
+    	{
+    		if( locator.toLowerCase().startsWith("css=") )
+    		{
+    			webElements = getWebDriver().findElements( By.cssSelector( locator.split("=")[1] ) );
+    		}
+    	}
+    	if( webElements == null )
+    	{
+    		if( locator.toLowerCase().startsWith("id=") )
+    		{
+    			webElements = getWebDriver().findElements( By.id( locator.split("=")[1]));
+    		}
+    	}
+    	if( webElements == null )
+    	{
+    		if( locator.toLowerCase().startsWith("name=") )
+    		{
+    			webElements = getWebDriver().findElements( By.name( locator.split("=")[1]));
+    		}
+    	}
+    	if( webElements == null )
+    	{
+    		if( locator.toLowerCase().startsWith("link=") )
+    		{
+    			webElements = getWebDriver().findElements( By.linkText( locator.split("=")[1]));
+    		}
+    		if( webElements == null )
+    		{
+    			webElements = getWebDriver().findElements( By.partialLinkText( locator.split("=")[1]));
+    		}
+    	}
+    	
+    	return webElements;
+    	
     }
 
 }

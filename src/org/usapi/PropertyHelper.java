@@ -47,6 +47,8 @@ public class PropertyHelper
     private static final String BROWSER_VERSION			= "selenium.browserVersion";
     private static final String BROWSER_PLATFORM		= "selenium.browserPlatform";
     private static final String BROWSER_URL 			= "selenium.browserUrl";
+    private static final String CHROMEDRIVER_HOST		= "chromedriver.host";
+    private static final String CHROMEDRIVER_PORT		= "chromedriver.port";
 
 	private static final String PROPERTY_SEPARATOR = ",";
 	private static final String NAMEVALUE_SEPARATOR = "=";
@@ -161,26 +163,6 @@ public class PropertyHelper
 	}
 	
 	/**
-	 * @deprecated
-	 * Supported only on selenium (i.e. not WebDriver).  No-op when using WebDriver (the default).
-	 * @return
-	 */
-	public static boolean getHighlight()
-	{
-		return highlight;
-	}
-
-	/**
-	 * @deprecated
-	 * Defaults to 0.  Affects only selenium.  No effect when using WebDriver, which is the default.
-	 * @return the value of the JVM environment variable selenium.executionSpeed 
-	 */
-	public static String getExecutionSpeed()
-	{
-		return System.getProperty( EXECUTION_SPEED );
-	}
-
-	/**
 	 * Set the directory where screenshots for failures are saved to.  Defaults to &lt;current user's home dir&gt;/seleniumFailureCaptures
 	 * @return
 	 */
@@ -205,6 +187,24 @@ public class PropertyHelper
 	public static String getSeleniumServerPort()
 	{
 		return System.getProperty( SERVER_PORT );
+	}
+	
+	/**
+	 * Host on which chromedriver runs, defaults to 127.0.0.1
+	 * @return
+	 */
+	public static String getChromeDriverHost()
+	{
+		return System.getProperty( CHROMEDRIVER_HOST );
+	}
+	
+	/**
+	 * Port on which chromedriver runs, defaults to 9515
+	 * @return
+	 */
+	public static String getChromeDriverPort()
+	{
+		return System.getProperty( CHROMEDRIVER_PORT );
 	}
 	
 	/**
@@ -264,6 +264,8 @@ public class PropertyHelper
         // load defaults
 		testProps.put( SERVER_HOST, "" );
 		testProps.put( SERVER_PORT, "" );
+		testProps.put( CHROMEDRIVER_HOST, "127.0.0.1" );
+		testProps.put( CHROMEDRIVER_PORT, 9515);
 		testProps.put( BROWSER_CMD, "*firefox" );
 		testProps.put( BROWSER_URL, "http://localhost" );
 		testProps.put( EXECUTION_SPEED, "0" );

@@ -45,8 +45,7 @@ import com.thoughtworks.selenium.Selenium;
 public class SeleniumFactory
 {
 	private static final Log log = LogFactory.getLog(SeleniumFactory.class);
-	private static WebDriver webDriver;
-    private static Selenium selenium;
+	private static WebDriver webDriver = null;
     
     private static final String BROWSER_TYPE_FIREFOX = "firefox";
     private static final String BROWSER_TYPE_IEXPLORE = "iexplore";
@@ -56,33 +55,11 @@ public class SeleniumFactory
 
 
     /**
-     * Retuns an instance of Selenium or WebDriver.
+     * Returns an instance of WebDriver.
      *
-     * This is a singleton that is instantiated from DefaultSelenium
-     * with parameters from system properties with overrides
-
+     * This is a singleton that is instantiated with parameters 
+     * from system properties with overrides
      */
-    public static Selenium getSeleniumInstance()
-    {
-    	if( selenium == null )
-    	{
-			selenium = new WebDriverBackedSelenium(getWebDriverInstance(), PropertyHelper.getSeleniumBrowserUrl());
-        	
-            // Firefox executes considerably faster than IE, to the point that selenium gets ahead of itself.
-            // Instead of requiring sleep() and focus() statements throughout the test code, we'll slow shelenium
-            // down.  Note that even though the motivation for this configurable setting is Firefox, this allows
-            //	execution on any browser to be slowed down
-        	String execSpd = PropertyHelper.getExecutionSpeed();
-        	if ( execSpd != null && execSpd.length() > 0 )
-        	{
-            	log.info("Configuring selenium execution delay to " + execSpd + " ms.");
-            	selenium.setSpeed( execSpd );
-        	}
-        }
-    	
-        return selenium;
-    }
-    
     public static WebDriver getWebDriverInstance()
     {
     	if( webDriver == null )
@@ -137,7 +114,23 @@ public class SeleniumFactory
             	}
             	else if(browser.toLowerCase().contains( BROWSER_TYPE_CHROME ) )
             	{
-            		webDriver = new ChromeDriver();
+                	URL chromeDriverUrl = null;
+    	        	try
+    	        	{
+    	        		chromeDriverUrl = new URL( "http://" + PropertyHelper.getChromeDriverHost() 
+    	        				+ ":" + PropertyHelper.getChromeDriverPort() );
+    	        	}
+    	        	catch( MalformedURLException e )
+    	        	{
+    	        		// this should never happen, as the default values for serverHost and port are localhost and 4444.  Only if
+    	        		// overrides (from .properties or cmd line) result in an invalid URL this exception handler would get invoked.
+    	        		log.error("Invalid value for Selenium Server Host or Selenium Server Port.  Provided values: <" 
+    	        				+ PropertyHelper.getChromeDriverHost() + "> <" 
+    	        				+ PropertyHelper.getChromeDriverPort() + ">");
+    	
+    	        	}
+					webDriver = new RemoteWebDriver( chromeDriverUrl, DesiredCapabilities.chrome());
+					webDriver = new Augmenter().augment( (WebDriver)webDriver);
             	}
             	else if( browser.toLowerCase().contains( BROWSER_TYPE_SAFARI ) )
             	{
@@ -166,13 +159,11 @@ public class SeleniumFactory
     
     public static void reset()
     {
-    	Selenium s = getSeleniumInstance();
-    	WebDriver wd = getWebDriverInstance();
-    	s.close();
-    	wd.quit();
-    	selenium = null;
-    	webDriver = null;
-    	//try { Thread.sleep( 1000 ); } catch ( Exception e ) {/*do nothing*/}
+    	if( webDriver != null )
+    	{
+    		webDriver.quit();
+        	webDriver = null;
+    	}
     }
     
     private static DesiredCapabilities getDesiredCapabilities(String browser)

@@ -34,16 +34,10 @@ public class SeleniumFactoryTest extends TestCase {
 	@Test
     public void testSeleniumFactory()
     {
-        Selenium selenium = SeleniumFactory.getSeleniumInstance();
-        assertNotNull("SeleniumFactory returns null", selenium);
-        
         WebDriver webDriver = SeleniumFactory.getWebDriverInstance();
         assertNotNull("SeleniumFactory returns null", webDriver);
         
         SeleniumFactory.reset();
-        Selenium s2 = SeleniumFactory.getSeleniumInstance();
-        assertFalse("Received same selenium instance after factory re-set", selenium == s2 );
-        
         WebDriver wd2 = SeleniumFactory.getWebDriverInstance();
         assertFalse("Received same webDriver instance after factory re-set", wd2 == webDriver );
         

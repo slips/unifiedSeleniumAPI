@@ -128,17 +128,9 @@ public class BaseSeleniumTestTest extends TestCase {
 	}
 	
 	@Test
-	public void testGetSelenium()
-	{
-		myTest.setUpSelenium();
-		assertNotNull( "Got null for selenium instance", myTest.getParentSelenium() );
-		SeleniumFactory.reset();
-	}
-	
-	@Test
 	public void testGetWebDriver()
 	{
-		myTest.setUpSelenium();
+		myTest.setUpWebDriver();
 		assertNotNull( "Got null for webDriver instance", myTest.getParentWebDriver() );
 		SeleniumFactory.reset();
 	}
@@ -194,8 +186,7 @@ public class BaseSeleniumTestTest extends TestCase {
 	@Test
 	public void testSetUpSelenium()
 	{
-		myTest.setUpSelenium();
-		assertNotNull( "Got null for selenium instance", myTest.getParentSelenium() );
+		myTest.setUpWebDriver();
 		assertNotNull( "Got null for web driver instance", myTest.getParentWebDriver() );
 		SeleniumFactory.reset();
 	}

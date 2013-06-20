@@ -226,13 +226,6 @@ public abstract class AbstractNode implements IDOMNode {
         mouseDownUp( SHIFT_KEY );
 	}
 	
-	
-	public void focus() throws USAPIException
-	{
-		log("Setting focus to " + type + " <" + nodeName + "> [locator: " + getLocator() + "]", LOGLEVEL_INFO);
-		executeSeleniumMethod( "focus", new Object [] { getLocator() } );
-	}
-	
 	public void select( String visibleText )  throws USAPIException
 	{
 		notSupported ( "select" );
@@ -281,6 +274,14 @@ public abstract class AbstractNode implements IDOMNode {
 	{
 		log("Bringing up context menu on " + type + " <" + nodeName + "> [locator: " + getLocator() + "]", LOGLEVEL_INFO);
 		getMouse().contextClick( ((RemoteWebElement)findElement(locator)).getCoordinates());
+	}
+	
+	/**
+	 * Unsupported for DOM nodes/UI elements, current support only to focus on browser windows/pop-ups
+	 */
+	public void focus() throws USAPIException
+	{
+		notSupported( "focus" );
 	}
 	
 	/**
@@ -394,81 +395,6 @@ public abstract class AbstractNode implements IDOMNode {
 		return returnValue;		
 	}
 	
-	/**
-	 * Execute the specified method in a timed loop to cover cases where a given node/control
-	 * is not loaded yet due to timing issues.  For up to <timeout> seconds we will attempt
-	 * to execute the method, if it continues to fail (Exception thrown by attempted method
-	 * execution) we re-throw.
-	 */
-	protected Object executeSeleniumMethod( String name, Object [] args ) throws USAPIException
-	{
-		boolean success = false;
-		
-		Class [] parms = new Class [ args.length ];
-		for ( int ndx = 0; ndx < args.length; ndx++ )
-		{
-			parms [ ndx ] = args [ ndx ].getClass();
-		}
-		
-		Object returnValue = null;
-		long start = System.currentTimeMillis();
-		long stop = 0;
-		String errMsg = null;
-		long timeOut = PropertyHelper.getTimeout();
-		Selenium selenium = SeleniumFactory.getSeleniumInstance();
-		while ( stop - start < timeOut )
-		{
-			try
-			{
-				// first argument is always the locator
-				highlightElement( (String)args[ 0 ] );
-				Method m = selenium.getClass().getMethod(name, parms);
-				returnValue = m.invoke ( selenium, args );
-				// if the function call succeeded, then exit the loop
-				success = true;
-				errMsg = null;
-				break;
-			} catch ( Exception e )
-			{
-				// NoSuchMethodException
-				// IllegalAccessException
-				// IllegalArgumentException
-				// InvocationTargetException
-				// NullPointerException
-				// ExceptionInInitializerError
-				
-				// regardless of exception, execution failed, so sleep a sec and try again, until max timeout is reached
-				// this of course assumes that the exception was caused by a timing issue, such as AJAX
-				// if it is a legit exception, e.g. element not found due to incorrect element definition in the spring
-				// config, then the first time through a test developer will have to sit and wait, or set the default
-				// timeout to something lower then the default 30 secs.
-				errMsg = ( e.getCause() == null ) ? e.getClass() + ": " + e.getMessage() : e.getCause().getMessage(); 
-
-				log( errMsg, LOGLEVEL_DEBUG );
-				
-				sleep ( 1000 );
-				stop = System.currentTimeMillis();
-			}
-		}
-		if (!success)
-		{
-			log( errMsg, LOGLEVEL_ERROR );
-			throw new USAPIException( errMsg, getWebDriver() );
-		}
-		
-		return returnValue;
-	}
-	
-	private void highlightElement( String locator )
-	{
-		if( PropertyHelper.getHighlight() )
-		{
-			// WebDriver/Selenium v2.x does not support highlighting at the time of this writing.  Using
-			// back-door API into selenium v1.x to continue to provide highlight feature
-			SeleniumFactory.getSeleniumInstance().highlight( locator );
-		}	
-	}
-	
 	protected void log(String msg, String level)
 	{
 		if ( level.equalsIgnoreCase(LOGLEVEL_WARN))
@@ -553,7 +479,6 @@ public abstract class AbstractNode implements IDOMNode {
     	{
     		if( selector.toLowerCase().startsWith("css=") )
     		{
-    			String s = selector.split("=")[1];
     			webElements = getWebDriver().findElements( By.cssSelector( selector.split("=")[1] ) );
     		}
     	}
@@ -593,7 +518,50 @@ public abstract class AbstractNode implements IDOMNode {
     
     protected WebElement findElement( String selector ) throws NoSuchElementException
     {
-    	return findElements( locator ).get( 0 );
+    	WebElement webElement = null;
+    	if( selector.startsWith( "/" ) || selector.startsWith( "(" ) )
+    	{
+    		webElement = getWebDriver().findElement( By.xpath(selector));
+    	}
+    	if( webElement == null )
+    	{
+    		if( selector.toLowerCase().startsWith("css=") )
+    		{
+    			webElement = getWebDriver().findElement( By.cssSelector( selector.split("=")[1] ) );
+    		}
+    	}
+    	if( webElement == null )
+    	{
+    		if( selector.toLowerCase().startsWith("id=") )
+    		{
+    			webElement = getWebDriver().findElement( By.id( selector.split("=")[1]));
+    		}
+    	}
+    	if( webElement == null )
+    	{
+    		if( selector.toLowerCase().startsWith("name=") )
+    		{
+    			webElement = getWebDriver().findElement( By.name( selector.split("=")[1]));
+    		}
+    	}
+    	if( webElement == null )
+    	{
+    		if( selector.toLowerCase().startsWith("link=") )
+    		{
+    			webElement = getWebDriver().findElement( By.linkText( selector.split("=")[1]));
+    		}
+    		if( webElement == null )
+    		{
+    			webElement = getWebDriver().findElement( By.partialLinkText( selector.split("=")[1]));
+    		}
+    	}
+    	
+    	if( webElement == null )
+    	{
+    		throw new NoSuchElementException( "Unable to find elements matching provided selector: <" + selector + ">" );
+    	}
+    	
+    	return webElement;
 
     }
 
