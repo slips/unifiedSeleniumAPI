@@ -297,11 +297,11 @@ public class PropertyHelper
         	// values loaded at this point should be override-able from the
         	// cmd line
         	String existingProp = System.getProperty(key);
+    		log.info("Using system property " + key + ", value: " + ( existingProp == null ? value : existingProp ) );
         	if ( existingProp == null )
         	{
         		System.setProperty(key, value);
         	}
-    		log.info("Using system property " + key + ", value: " + ( existingProp == null ? value : existingProp ) );
         }
     }
 
