@@ -288,6 +288,7 @@ public class PropertyHelper
 		
 		String properties = System.getProperty( SELENIUM_PROPERTIES );
 		properties = properties == null ? SELENIUM_PROPERTIES : properties;
+		log.info( "Using properties file " + properties );
         
         URL url = ClassLoader.getSystemResource ( properties );
         try
@@ -315,7 +316,6 @@ public class PropertyHelper
         	{
         		System.setProperty(key, value);
         	}
-        	log.info("Using system property " + key + ", value: " + ( existingProp == null ? value : existingProp ) );
         }
     }
 
