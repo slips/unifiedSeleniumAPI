@@ -349,6 +349,7 @@ public class PropertyHelper
     	if( TIMEOUT.equals(propertyName)) timeout = value;
     	else if ( SCRIPT_TIMEOUT.equals(propertyName)) scriptTimeout = value;
     	else if ( IMPLICITLY_WAIT.equals(propertyName)) implicitlyWait = value;
+    	else if ( PAGE_LOAD_TIMEOUT.equals(propertyName)) pageLoadTimeout = value;
     }
 
 

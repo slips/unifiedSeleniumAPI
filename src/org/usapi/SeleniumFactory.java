@@ -52,8 +52,7 @@ public class SeleniumFactory
     private static final String BROWSER_TYPE_CHROME = "chrome";
     private static final String BROWSER_TYPE_SAFARI = "safari";
     private static final String BROWSER_TYPE_HTMLUNIT = "htmlunit";
-
-
+    
     /**
      * Returns an instance of WebDriver.
      *
@@ -114,22 +113,7 @@ public class SeleniumFactory
             	}
             	else if(browser.toLowerCase().contains( BROWSER_TYPE_CHROME ) )
             	{
-                	URL chromeDriverUrl = null;
-    	        	try
-    	        	{
-    	        		chromeDriverUrl = new URL( "http://" + PropertyHelper.getChromeDriverHost() 
-    	        				+ ":" + PropertyHelper.getChromeDriverPort() );
-    	        	}
-    	        	catch( MalformedURLException e )
-    	        	{
-    	        		// this should never happen, as the default values for serverHost and port are localhost and 4444.  Only if
-    	        		// overrides (from .properties or cmd line) result in an invalid URL this exception handler would get invoked.
-    	        		log.error("Invalid value for Selenium Server Host or Selenium Server Port.  Provided values: <" 
-    	        				+ PropertyHelper.getChromeDriverHost() + "> <" 
-    	        				+ PropertyHelper.getChromeDriverPort() + ">");
-    	
-    	        	}
-					webDriver = new RemoteWebDriver( chromeDriverUrl, DesiredCapabilities.chrome());
+					webDriver = new RemoteWebDriver( getChromeDriverURL(), DesiredCapabilities.chrome());
 					webDriver = new Augmenter().augment( (WebDriver)webDriver);
             	}
             	else if( browser.toLowerCase().contains( BROWSER_TYPE_SAFARI ) )
@@ -201,5 +185,25 @@ public class SeleniumFactory
     	}
     	
     	return c;
+    }
+    
+    private static URL getChromeDriverURL()
+    {
+    	URL url = null;
+    	try
+    	{
+    		url = new URL( "http://" + PropertyHelper.getChromeDriverHost() 
+    				+ ":" + PropertyHelper.getChromeDriverPort() );
+    	}
+    	catch( MalformedURLException e )
+    	{
+    		// this should never happen, as the default values for serverHost and port are localhost and 4444.  Only if
+    		// overrides (from .properties or cmd line) result in an invalid URL this exception handler would get invoked.
+    		log.error("Invalid value for ChromeDriver Server Host or ChromeDriver Server Port.  Provided values: <" 
+    				+ PropertyHelper.getChromeDriverHost() + "> <" 
+    				+ PropertyHelper.getChromeDriverPort() + ">");
+
+    	}
+    	return url;
     }
 }

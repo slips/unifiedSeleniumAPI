@@ -16,22 +16,27 @@ limitations under the License.
 
 package org.usapi;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Properties;
 
-import junit.framework.Assert;
+import org.junit.Assert.*;
 import junit.framework.AssertionFailedError;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -49,7 +54,7 @@ import com.thoughtworks.selenium.Wait;
  * specific operations (SQL queries, verify successful sending/receipt
  * of email notification), or simply batch common operations (login, etc).
  * 
- * Those helper functions should are to be implemented in helper modules
+ * Those helper functions should be implemented in helper modules
  * for that particular test package.  The functionality in this package
  * is application-agnostic, helper functions in this class are generic.
  */
@@ -89,11 +94,45 @@ public abstract class BaseSeleniumTest
     public final NodeType TYPE_TREENODE		= NodeType.TREENODE;
     public final NodeType TYPE_WINDOW       = NodeType.WINDOW;
     
-
+    private static ChromeDriverService chromeDrvSvc;
+    private static boolean isRunningOnGrid = PropertyHelper.getSeleniumServerHost().length() > 0
+    		&& PropertyHelper.getSeleniumServerPort().length() > 0;
+    
     public BaseSeleniumTest()
     {
     	elements = getElements();
 	}
+    
+    /**
+     * When running on the grid, chromedriver does not need to be started.  Trial-and-error has shown that
+     * the selenium server appears to be taking care of running chromedriver on the remote machine.
+     * We therefore launch chrome driver only when running local, and expect it to be in the path.
+     * @throws IOException
+     */
+    @BeforeClass
+    public static void createAndStartChromeDriverService() throws IOException
+    {
+    	String browser = PropertyHelper.getSeleniumBrowserCommand();
+    	if( browser.toLowerCase().contains("chrome") && !isRunningOnGrid )
+    	{
+    		// chromedriver is expected to be in the path
+    		chromeDrvSvc = new ChromeDriverService.Builder()
+    			.usingDriverExecutable( new File( getChromeDriverFilename() ) )
+    			.usingPort( Integer.parseInt( PropertyHelper.getChromeDriverPort() ) )
+    			.build();
+    		chromeDrvSvc.start();
+    	}
+    }
+    
+    @AfterClass
+    public static void stopChromeDriverService()
+    {
+    	String browser = PropertyHelper.getSeleniumBrowserCommand();
+    	if( browser.toLowerCase().contains("chrome") && !isRunningOnGrid )
+    	{
+    		chromeDrvSvc.stop();
+    	}
+    }
 
     /**
      * JUnit setUp.  Starts selenium and maximizes browser if JVM env var selenium.maximize is set.
@@ -104,13 +143,10 @@ public abstract class BaseSeleniumTest
         webDriver = SeleniumFactory.getWebDriverInstance();
 		app = new BaseApplication(webDriver, elements );    
 		
-		if ( PropertyHelper.getMaximize() )
+		if ( PropertyHelper.getMaximize() && !isRunningOnGrid )
         {
         	webDriver.manage().window().maximize();
         }
-
-        String timeout = Long.toString( PropertyHelper.getTimeout() );
-        log.info("Configuring selenium timeout to " + timeout );
     }
 
     /**
@@ -298,7 +334,7 @@ public abstract class BaseSeleniumTest
     {
         try
         {
-            Assert.assertTrue( message, condition );
+            org.junit.Assert.assertTrue( message, condition );
         }
         catch ( AssertionFailedError afe )
         {
@@ -321,7 +357,7 @@ public abstract class BaseSeleniumTest
     {
         try
         {
-            Assert.assertFalse( message, condition );
+            org.junit.Assert.assertFalse( message, condition );
         }
         catch ( AssertionFailedError afe )
         {
@@ -346,7 +382,7 @@ public abstract class BaseSeleniumTest
     	String failureMsg = "Alert message not as expected, expected: " + msg + ", actual: " + actual;
     	try
     	{
-    		Assert.assertTrue( actual.equals( msg ) );
+    		org.junit.Assert.assertTrue( actual.equals( msg ) );
     	}
     	catch( AssertionFailedError afe )
     	{
@@ -506,6 +542,11 @@ public abstract class BaseSeleniumTest
     	
     	return webElements;
     	
+    }
+    
+    private static String getChromeDriverFilename()
+    {
+    	return System.getProperty("os.name").startsWith("Windows") ? "chromedriver.exe" : "chromedriver";
     }
 
 }
