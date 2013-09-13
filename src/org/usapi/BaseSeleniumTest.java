@@ -69,7 +69,7 @@ public abstract class BaseSeleniumTest
     
     protected Properties data;
     
-    private Log log = LogFactory.getLog(this.getClass());
+    private static Log log = LogFactory.getLog(BaseSeleniumTest.class);
     
     private long timeout = PropertyHelper.getTimeout();
     
@@ -115,6 +115,7 @@ public abstract class BaseSeleniumTest
     	String browser = PropertyHelper.getSeleniumBrowserCommand();
     	if( browser.toLowerCase().contains("chrome") && !isRunningOnGrid )
     	{
+    		log.info("Using chromedriver from <" + PropertyHelper.getChromeDriverExecutable() + ">");
     		// chromedriver is expected to be in the path
     		chromeDrvSvc = new ChromeDriverService.Builder()
     			.usingDriverExecutable( new File( PropertyHelper.getChromeDriverExecutable() ) )
