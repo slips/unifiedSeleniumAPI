@@ -210,8 +210,8 @@ public class PropertyHelper
 	
 	/**
 	 * By default returns platform-dependent name of chromedriver executable, in
-	 * which case the executable is expected to be in the path.  If overriden via
-	 * -Dchromedriver.executable, the value of override will be used. 
+	 * which case the executable is expected to be in the path.  If over-ridden via
+	 * -Dchromedriver.executable, the value of the override will be used. 
 	 * @return
 	 */
 	public static String getChromeDriverExecutable()
@@ -315,6 +315,7 @@ public class PropertyHelper
         	{
         		System.setProperty(key, value);
         	}
+        	log.info("Using system property " + key + ", value: " + ( existingProp == null ? value : existingProp ) );
         }
     }
 
