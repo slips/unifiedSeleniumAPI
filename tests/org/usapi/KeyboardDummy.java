@@ -16,7 +16,7 @@ limitations under the License.
 
 package org.usapi;
 
-import org.openqa.selenium.Keyboard;
+import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.Keys;
 
 public class KeyboardDummy implements Keyboard
@@ -60,5 +60,7 @@ public class KeyboardDummy implements Keyboard
 	}
 	
 	public void sendKeys( CharSequence... keysToSend ) {}
+	public void pressKey( CharSequence cs ) {}
+	public void releaseKey( CharSequence cs ) {}
 	
 }

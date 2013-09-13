@@ -16,7 +16,7 @@ limitations under the License.
 
 package org.usapi;
 
-import org.openqa.selenium.Mouse;
+import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.interactions.internal.Coordinates;
 
 public class MouseDummy implements Mouse 
