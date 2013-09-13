@@ -49,6 +49,7 @@ public class PropertyHelper
     private static final String BROWSER_URL 			= "selenium.browserUrl";
     private static final String CHROMEDRIVER_HOST		= "chromedriver.host";
     private static final String CHROMEDRIVER_PORT		= "chromedriver.port";
+    private static final String CHROMEDRIVER_EXECUTABLE = "chromedriver.executable";
 
 	private static final String PROPERTY_SEPARATOR = ",";
 	private static final String NAMEVALUE_SEPARATOR = "=";
@@ -208,6 +209,17 @@ public class PropertyHelper
 	}
 	
 	/**
+	 * By default returns platform-dependent name of chromedriver executable, in
+	 * which case the executable is expected to be in the path.  If overriden via
+	 * -Dchromedriver.executable, the value of override will be used. 
+	 * @return
+	 */
+	public static String getChromeDriverExecutable()
+	{
+		return System.getProperty( CHROMEDRIVER_EXECUTABLE );
+	}
+	
+	/**
 	 * Specifies which browser to use.  Required.
 	 * @return
 	 */
@@ -266,6 +278,7 @@ public class PropertyHelper
 		testProps.put( SERVER_PORT, "" );
 		testProps.put( CHROMEDRIVER_HOST, "127.0.0.1" );
 		testProps.put( CHROMEDRIVER_PORT, "9515" );
+		testProps.put( CHROMEDRIVER_EXECUTABLE, getChromeDriverFilename() );
 		testProps.put( BROWSER_CMD, "*firefox" );
 		testProps.put( BROWSER_URL, "http://localhost" );
 		testProps.put( EXECUTION_SPEED, "0" );
@@ -351,6 +364,12 @@ public class PropertyHelper
     	else if ( IMPLICITLY_WAIT.equals(propertyName)) implicitlyWait = value;
     	else if ( PAGE_LOAD_TIMEOUT.equals(propertyName)) pageLoadTimeout = value;
     }
+    
+    private static String getChromeDriverFilename()
+    {
+    	return System.getProperty("os.name").startsWith("Windows") ? "chromedriver.exe" : "chromedriver";
+    }
+    
 
 
 }

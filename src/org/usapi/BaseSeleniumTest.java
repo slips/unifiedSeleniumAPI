@@ -117,7 +117,7 @@ public abstract class BaseSeleniumTest
     	{
     		// chromedriver is expected to be in the path
     		chromeDrvSvc = new ChromeDriverService.Builder()
-    			.usingDriverExecutable( new File( getChromeDriverFilename() ) )
+    			.usingDriverExecutable( new File( PropertyHelper.getChromeDriverExecutable() ) )
     			.usingPort( Integer.parseInt( PropertyHelper.getChromeDriverPort() ) )
     			.build();
     		chromeDrvSvc.start();
