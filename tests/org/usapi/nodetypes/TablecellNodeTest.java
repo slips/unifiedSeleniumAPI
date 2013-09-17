@@ -16,24 +16,21 @@ limitations under the License.
 
 package org.usapi.nodetypes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CategoryNodeTest extends AbstractNodeTest
-{
+public class TablecellNodeTest extends AbstractNodeTest {
 
-	private String TYPE = "category";
-	private String NODE_NAME = "c1";
- 
+	private String TYPE = "tablecell";
+	private String NODE_NAME = "t1";
 	
 	@Before
 	public void setUp() throws Exception {
 		super.webDriver.setCallbackNode(this);
-		nodeUnderTest = new CategoryNode( super.webDriver, TYPE, NODE_NAME, AbstractNodeTest.LOCATOR);
+		nodeUnderTest = new TableNode( super.webDriver, TYPE, NODE_NAME, AbstractNodeTest.LOCATOR);
 	}
 
 	@After
@@ -44,7 +41,7 @@ public class CategoryNodeTest extends AbstractNodeTest
 	@Test
 	public void testNodeInstance() {
 		assertNotNull(nodeUnderTest.getWebDriver());
-		assertEquals(nodeUnderTest.getWebDriver(), super.webDriver);		
+		assertEquals(nodeUnderTest.getWebDriver(), super.webDriver);
 		assertNotNull(nodeUnderTest.getType());
 		assertEquals(nodeUnderTest.getType(), TYPE);
 		assertNotNull(nodeUnderTest.getNodeName());
@@ -52,4 +49,7 @@ public class CategoryNodeTest extends AbstractNodeTest
 		assertNotNull(nodeUnderTest.getLocator());
 		assertEquals(nodeUnderTest.getLocator(), AbstractNodeTest.LOCATOR);
 	}	
+
+
 }
+

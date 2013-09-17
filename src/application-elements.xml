@@ -21,6 +21,8 @@
 			<entry key="selectbox" value-ref="selectboxes" />
 			<entry key="tab" value-ref="tabs" />
 			<entry key="table" value-ref="tables" />
+			<entry key="tablecell" value-ref="tablecells" />
+			<entry key="tablerow" value-ref="tablerows" />
 			<entry key="text" value-ref="texts" />
 			<entry key="textfield" value-ref="textfields" />
 			<entry key="treenode" value-ref="treenodes" />
@@ -81,6 +83,14 @@
 
 		<util:map id="tables" map-class="java.util.Hashtable">
   			<entry key="k1" value="table.v1" />
+  		</util:map>
+
+		<util:map id="tablecells" map-class="java.util.Hashtable">
+  			<entry key="k1" value="tablecell.v1" />
+  		</util:map>
+
+		<util:map id="tablerows" map-class="java.util.Hashtable">
+  			<entry key="k1" value="tablerow.v1" />
   		</util:map>
 
 		<util:map id="texts" map-class="java.util.Hashtable">

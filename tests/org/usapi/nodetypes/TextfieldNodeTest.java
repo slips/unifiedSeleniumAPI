@@ -32,7 +32,6 @@ public class TextfieldNodeTest extends AbstractNodeTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		super.selenium.setCallbackNode(this);
 		super.webDriver.setCallbackNode(this);
 		nodeUnderTest = new TextfieldNode( super.webDriver, TYPE, NODE_NAME, AbstractNodeTest.LOCATOR);
 	}

@@ -29,7 +29,6 @@ public class TableNodeTest extends AbstractNodeTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		super.selenium.setCallbackNode(this);
 		super.webDriver.setCallbackNode(this);
 		nodeUnderTest = new TableNode( super.webDriver, TYPE, NODE_NAME, AbstractNodeTest.LOCATOR);
 	}

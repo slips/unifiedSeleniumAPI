@@ -89,6 +89,8 @@ public abstract class BaseSeleniumTest
     public final NodeType TYPE_SELECT       = NodeType.SELECT;
     public final NodeType TYPE_TAB          = NodeType.TAB;
     public final NodeType TYPE_TABLE	    = NodeType.TABLE;
+    public final NodeType TYPE_TABLECELL    = NodeType.TABLECELL;
+    public final NodeType TYPE_TABLEROW	    = NodeType.TABLEROW;
     public final NodeType TYPE_TEXT         = NodeType.TEXT;
     public final NodeType TYPE_TEXTFIELD    = NodeType.TEXTFIELD;
     public final NodeType TYPE_TREENODE		= NodeType.TREENODE;

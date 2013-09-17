@@ -26,13 +26,11 @@ import org.junit.Test;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import org.usapi.RemoteWebDriverDummy;
-import org.usapi.SeleniumDummy;
 import org.usapi.common.USAPIException;
 
 public class AbstractNodeTest {
 
 	protected final RemoteWebDriverDummy	webDriver 	= new RemoteWebDriverDummy();
-	protected final SeleniumDummy 			selenium 	= new SeleniumDummy();
 	protected final static String 			TYPE 		= "abstractNode";
 	protected final static String 			NODE_NAME 	= "abstractNodeName";
 	protected final static String 			LOCATOR 	= "/nodeLocator";
@@ -49,7 +47,6 @@ public class AbstractNodeTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		selenium.setCallbackNode(this);
 		webDriver.setCallbackNode(this);
 		nodeUnderTest = new NotSoAbstractNode(webDriver, TYPE, NODE_NAME, LOCATOR);
 		

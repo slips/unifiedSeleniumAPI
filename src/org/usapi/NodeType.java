@@ -33,6 +33,8 @@ public enum NodeType
     SELECT ( "selectbox" ),
     TAB ( "tab" ),
     TABLE ( "table" ),
+    TABLECELL ( "tablecell" ),
+    TABLEROW ( "tablerow" ),
     TEXTFIELD ( "textfield" ),
     TEXT ( "text" ),
     TREENODE ( "treenode" ),

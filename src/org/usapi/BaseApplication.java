@@ -208,6 +208,24 @@ public class BaseApplication implements IApplication {
 	}
 
 	/**
+	 * Get DOM node of type tablecell
+	 * @param nodeName A UI d isplay string uniquely identifying the tablecell visually 
+	 */
+	public IDOMNode tablecell(String nodeName) throws DOMNodeNotFoundException
+	{
+		return domNodeFactory.getDOMNode(NodeType.TABLECELL, nodeName);
+	}
+
+	/**
+	 * Get DOM node of type tablerow
+	 * @param nodeName A UI display string uniquely identifying the tablerow visually 
+	 */
+	public IDOMNode tablerow(String nodeName) throws DOMNodeNotFoundException
+	{
+		return domNodeFactory.getDOMNode(NodeType.TABLEROW, nodeName);
+	}
+
+	/**
 	 * Get DOM node of type tab
 	 * @param nodeName The UI display string on the tab &lt;a&gt; 
 	 */
