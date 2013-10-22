@@ -91,6 +91,7 @@
 			<include name="org/usapi/**"/>
 		</javac>
 		
+		<!--
 		<emma enabled="${emma.enabled}">
 			<instr mode="overwrite"
 				instrpath="${output.dir}"
@@ -99,7 +100,8 @@
 				<filter excludes="org.usapi.Base64*"/>
 				<filter excludes="org.usapi.NodeType*"/>
 			</instr>
-		</emma>			
+		</emma>
+		-->			
 		
 		<jar jarfile="${output.dir}/${ant.project.name}.jar">
 			<manifest>
