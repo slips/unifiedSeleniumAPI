@@ -40,6 +40,7 @@ public class PropertyHelper
     private static final String HIGHLIGHT				= "selenium.highlight";
     private static final String ENABLE_JAVASCRIPT		= "htmlunit.enableJavascript";
     private static final String ENABLE_NATIVE_EVENTS	= "selenium.enableNativeEvents";
+    private static final String JQUERY_WAIT_FOR_AJAX	= "jquery.waitForAjax";
     
     private static final String SERVER_HOST 			= "selenium.serverHost";
     private static final String SERVER_PORT 			= "selenium.serverPort";
@@ -262,6 +263,16 @@ public class PropertyHelper
 	{
 		return Boolean.parseBoolean(System.getProperty(ENABLE_NATIVE_EVENTS));
 	}
+	
+	public static boolean getJQueryWaitForAjax()
+	{
+		return Boolean.parseBoolean(System.getProperty(JQUERY_WAIT_FOR_AJAX));
+	}
+	
+	public static void setJQueryWaitForAjax( String state )
+	{
+		System.getProperty(JQUERY_WAIT_FOR_AJAX, state);
+	}
 
 
     /**
@@ -285,6 +296,7 @@ public class PropertyHelper
 		testProps.put( FAILURECAPTURE_DIR, failureCaptureDir );
 		testProps.put(ENABLE_JAVASCRIPT, "true");
 		testProps.put(ENABLE_NATIVE_EVENTS, "false");	// if we leave native events on, FF on Windoze can start acting up
+		testProps.put(JQUERY_WAIT_FOR_AJAX, "false");
 		
 		String properties = System.getProperty( SELENIUM_PROPERTIES );
 		properties = properties == null ? SELENIUM_PROPERTIES : properties;
