@@ -34,6 +34,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.usapi.IDOMNode;
 import org.usapi.PropertyHelper;
 import org.usapi.SeleniumFactory;
+import org.usapi.common.AjaxMonitor;
 import org.usapi.common.USAPIException;
 
 import com.thoughtworks.selenium.Selenium;
@@ -470,99 +471,25 @@ public abstract class AbstractNode implements IDOMNode {
     
     protected List<WebElement> findElements( String selector )
     {
-    	List<WebElement> webElements = null;
-    	if( selector.startsWith( "/" ) || selector.startsWith( "(" ) )
-    	{
-    		webElements = getWebDriver().findElements( By.xpath(selector));
-    	}
-    	if( webElements == null )
-    	{
-    		if( selector.toLowerCase().startsWith("css=") )
-    		{
-    			webElements = getWebDriver().findElements( By.cssSelector( selector.split("=")[1] ) );
-    		}
-    	}
-    	if( webElements == null )
-    	{
-    		if( selector.toLowerCase().startsWith("id=") )
-    		{
-    			webElements = getWebDriver().findElements( By.id( selector.split("=")[1]));
-    		}
-    	}
-    	if( webElements == null )
-    	{
-    		if( selector.toLowerCase().startsWith("name=") )
-    		{
-    			webElements = getWebDriver().findElements( By.name( selector.split("=")[1]));
-    		}
-    	}
-    	if( webElements == null )
-    	{
-    		if( selector.toLowerCase().startsWith("link=") )
-    		{
-    			webElements = getWebDriver().findElements( By.linkText( selector.split("=")[1]));
-    		}
-    		if( webElements == null )
-    		{
-    			webElements = getWebDriver().findElements( By.partialLinkText( selector.split("=")[1]));
-    		}
-    	}
+    	AjaxMonitor.waitForAjax( getWebDriver() );
     	
-    	if( webElements.isEmpty() )
-    	{
-    		throw new NoSuchElementException( "Unable to find elements matching provided selector: <" + selector + ">" );
-    	}
-    	
+    	List<WebElement> webElements = getWebDriver().findElements( getByForLocator( locator ) );
+    	// if no element found there is a chance that the locator is a partial text of a link,
+    	// so check that explicitly
+    	if( webElements == null && locator.toLowerCase().startsWith("link") )
+    		webElements = getWebDriver().findElements( By.partialLinkText( locator.split("=")[1] ) );
     	return webElements;
     }
     
     protected WebElement findElement( String selector ) throws NoSuchElementException
     {
-    	WebElement webElement = null;
-    	if( selector.startsWith( "/" ) || selector.startsWith( "(" ) )
-    	{
-    		webElement = getWebDriver().findElement( By.xpath(selector));
-    	}
-    	if( webElement == null )
-    	{
-    		if( selector.toLowerCase().startsWith("css=") )
-    		{
-    			webElement = getWebDriver().findElement( By.cssSelector( selector.split("=")[1] ) );
-    		}
-    	}
-    	if( webElement == null )
-    	{
-    		if( selector.toLowerCase().startsWith("id=") )
-    		{
-    			webElement = getWebDriver().findElement( By.id( selector.split("=")[1]));
-    		}
-    	}
-    	if( webElement == null )
-    	{
-    		if( selector.toLowerCase().startsWith("name=") )
-    		{
-    			webElement = getWebDriver().findElement( By.name( selector.split("=")[1]));
-    		}
-    	}
-    	if( webElement == null )
-    	{
-    		if( selector.toLowerCase().startsWith("link=") )
-    		{
-    			webElement = getWebDriver().findElement( By.linkText( selector.split("=")[1]));
-    		}
-    		if( webElement == null )
-    		{
-    			webElement = getWebDriver().findElement( By.partialLinkText( selector.split("=")[1]));
-    		}
-    	}
-    	
-    	if( webElement == null )
-    	{
-    		throw new NoSuchElementException( "Unable to find elements matching provided selector: <" + selector + ">" );
-    	}
-    	
+    	AjaxMonitor.waitForAjax( getWebDriver() );
+    	WebElement webElement = getWebDriver().findElement( getByForLocator( locator ) );
+    	// if no element found there is a chance that the locator is a partial text of a link,
+    	// so check that explicitly
+    	if( webElement == null && locator.toLowerCase().startsWith("link") )
+    		webElement = getWebDriver().findElement( By.partialLinkText( locator.split("=")[1] ) );
     	return webElement;
-
     }
 
     protected List<WebElement> timedFindElements( String selector, long timeout ) throws NoSuchElementException
@@ -595,6 +522,17 @@ public abstract class AbstractNode implements IDOMNode {
     protected WebElement timedFindElement( String selector, long timeout ) throws NoSuchElementException
     {
     	return timedFindElements( selector, timeout ).get( 0 );
+    }
+    
+    private By getByForLocator( String locator )
+    {
+    	By by = null;
+    	if( locator.startsWith("/") || locator.startsWith("(") ) by = By.xpath( locator );
+    	if( locator.startsWith("css=") ) by = By.cssSelector( locator.split("=")[1] );
+    	if( locator.startsWith("id=") ) by = By.id( locator.split("=")[1] );
+    	if( locator.startsWith("name=") ) by = By.name( locator.split("=")[1] );
+    	if( locator.startsWith("link=") ) by = By.linkText( locator.split("=")[1] );
+    	return by;
     }
     
     

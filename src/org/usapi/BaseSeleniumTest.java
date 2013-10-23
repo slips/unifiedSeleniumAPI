@@ -40,6 +40,7 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.usapi.common.AjaxMonitor;
 import org.usapi.common.DataInjector;
 import org.usapi.common.USAPIException;
 
@@ -443,7 +444,7 @@ public abstract class BaseSeleniumTest
      *
      * @param milli The time in milliseconds to wait.
      */
-    public void sleep(long milli)
+    public static void sleep(long milli)
     {
         try
         {
@@ -505,6 +506,8 @@ public abstract class BaseSeleniumTest
     
     private List<WebElement> findElementsBy( String locator )
     {
+    	AjaxMonitor.waitForAjax( getWebDriver() );
+    	
     	List<WebElement> webElements = null;
     	if( locator.startsWith( "/" ) || locator.startsWith( "(" ) )
     	{
