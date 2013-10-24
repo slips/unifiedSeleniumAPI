@@ -147,7 +147,7 @@ public abstract class BaseSeleniumTest
         webDriver = SeleniumFactory.getWebDriverInstance();
 		app = new BaseApplication(webDriver, elements );    
 		
-		if ( PropertyHelper.getMaximize() && !isRunningOnGrid )
+		if ( PropertyHelper.getMaximize() ) // && !isRunningOnGrid )
         {
         	webDriver.manage().window().maximize();
         }
