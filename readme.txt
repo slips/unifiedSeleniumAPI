@@ -115,6 +115,10 @@ Example for application element XML
 
   o	selenium.properties: If using a .properties file other than the default selenium.properties, 
   
+  o	chromedriver.host
+  
+  o	chromedriver.port
+  
   
   
   

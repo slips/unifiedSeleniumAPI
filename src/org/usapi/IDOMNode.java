@@ -221,6 +221,13 @@ public interface IDOMNode {
 	 */
 	
 	/**
+	 * Checks whether this DOM node is selected
+	 * @return selection state of this DOM node
+	 * @throws USAPIException
+	 */
+	public boolean isSelected() throws USAPIException;
+	
+	/**
 	 * Get the count of row &lt;tr&gt; elements in the current table
 	 * @return row count
 	 * @throws USAPIException

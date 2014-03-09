@@ -339,6 +339,12 @@ public abstract class AbstractNode implements IDOMNode {
 	    return ( (Boolean)executeMethod( this, "nativeIsVisible", new Object [] {}, getLocator() ) ).booleanValue();
 	}
 	
+	public boolean isSelected() throws USAPIException
+	{
+	    log( "Checking if " + type + " <" + nodeName + "> [locator: " + getLocator() + "] is selected", LOGLEVEL_INFO);
+	    return ( (Boolean)executeMethod( this, "nativeIsSelected", new Object [] {}, getLocator() ) ).booleanValue();
+	}
+	
 	protected Object executeMethod( Object declaringClassInstance, String methodName, Object[] args, String locator ) throws USAPIException
 	{
 		boolean success = false;		
@@ -585,6 +591,12 @@ public abstract class AbstractNode implements IDOMNode {
 		WebElement webElement = findElement( getLocator() );
 		return webElement.isDisplayed();
 	}    
+	
+	public boolean nativeIsSelected() throws USAPIException
+	{
+		WebElement webElement = findElement( getLocator() );
+		return webElement.isSelected();
+	}
 
     public void nativeClick() throws USAPIException
     {
